@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        style="@style/TitleStyle"
+        android:text="功能清单" />
+
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!~"
-        android:textColor="#00C5CD"
-        android:textSize="25sp"
-        android:gravity="center_horizontal"
-        />
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="我们不可能最求结果,但我们要做好过程。。。我们不可能最求结果,但我们要做好过程。。。" />-->
+
+    <com.rya.ryamobilesafe.view.FocusTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="我们不可能最求结果,但我们要做好过程。。。我们不可能最求结果,但我们要做好过程。。。" />
+
+    <GridView
+        android:id="@+id/gv_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:padding="10dp"
+        android:verticalSpacing="10dp">
+    </GridView>
 
 </LinearLayout>

@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.HttpUtils;
@@ -18,6 +21,8 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.rya.ryamobilesafe.R;
+import com.rya.ryamobilesafe.utils.ConstantValues;
+import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.StreamUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;
 
@@ -41,7 +46,7 @@ public class SplashActivity extends Activity {
     private TextView tv_versionName;
     private int mLocalVersionCode;
     private String mVersionName;
-
+    private String mVersionUrl;
     private static final String TAG = "SplashActivity";
     private Handler mHandler = new Handler() {
         @Override
@@ -68,8 +73,60 @@ public class SplashActivity extends Activity {
             }
         }
     };
-    private String mVersionUrl;
+    private RelativeLayout rl_root;
 
+    /**
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+
+        //初始化UI
+        initUI();
+
+        //初始化信息
+        initData();
+
+        //splash界面开启渐变动画效果
+        startAnimation();
+
+    }
+
+    private void startAnimation() {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(4000);
+        rl_root.startAnimation(alphaAnimation);
+    }
+
+    /**
+     * 初始化信息，在splash界面显示版本信息
+     */
+    private void initData() {
+        String versionText = "版本号：" + getVersionName();
+        tv_versionName.setText(versionText);
+        //获取本地版本号 (检测更新，本地版本号 服务器版本号)
+        mLocalVersionCode = getVersionCode();
+        //获取服务器版本号（客户端发请求，服务器相应(json、xml))
+        if (SPUtil.getBoolean(getApplicationContext(), ConstantValues.ISUPDATE, false)) {
+            checkVersion();
+        } else {
+            Message msg = new Message();
+            msg.what = HOMEPAGE;
+            mHandler.sendMessageDelayed(msg, 4000);
+        }
+
+    }
+
+    /**
+     * 弹出对话框
+     *  builder.setIcon
+     *  builder.setTitle
+     *  builder.setMessage
+     *  builder.setPositiveButton
+     *  builder.setNegativeButton
+     */
     private void alarmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.head2);
@@ -98,6 +155,9 @@ public class SplashActivity extends Activity {
         builder.show();
     }
 
+    /**
+     * 通过开源框架 Xutils - Http下载apk文件
+     */
     private void downloadAPK() {
         String path = getExternalFilesDir(null).getPath().trim() + File.separator + "RyaMobileSafe.apk";
         HttpUtils httpUtils = new HttpUtils();
@@ -132,6 +192,10 @@ public class SplashActivity extends Activity {
         });
     }
 
+    /**
+     * 隐式意图 跳转安装界面
+     * @param file APK文件
+     */
     private void InstallAPK(File file) {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
@@ -140,6 +204,12 @@ public class SplashActivity extends Activity {
         startActivityForResult(intent, 0);
     }
 
+    /**
+     * StartActivityForResult 返回/回掉 接收函数
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
@@ -147,35 +217,24 @@ public class SplashActivity extends Activity {
         }
     }
 
+    /**
+     * 跳转到主界面
+     */
     private void goHomePage() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        
-        //初始化UI
-        initUI();
-        String versionText = "版本号：" + getVersionName();
-        tv_versionName.setText(versionText);
-    }
-
-
 
     /**
      *  初始化UI方法     Alt +Shift +F
      */
     private void initUI() {
-        //1,获取应用版本号
+        rl_root = (RelativeLayout) findViewById(R.id.rl_root);
+        
         tv_versionName = (TextView) findViewById(R.id.tv_version_name);
-        //2,获取本地版本号 (检测更新，本地版本号 服务器版本号)
-        mLocalVersionCode = getVersionCode();
-        //3,获取服务器版本号（客户端发请求，服务器相应(json、xml))
-        checkVersion();
+
     }
 
     /**

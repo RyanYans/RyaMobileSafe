@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TitleStyle"
+        android:text="设置中心"/>
+
+    <!--<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动更新设置"
+            android:textColor="#111111"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_setting_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_setting_title"
+            android:text="自动检测更新"
+            android:textColor="#222222"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cb_isupdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_setting_des"
+            android:layout_marginTop="5dp"
+            android:background="#223333" />
+    </RelativeLayout>-->
+
+    <com.rya.ryamobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/siv_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="自动更新设置"
+        mobilesafe:item_des="自动检测更新" />
+
+    <com.rya.ryamobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/siv_belong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="电话归属地查询设置"
+        mobilesafe:item_des="查询电话归属地" />
+
+
+</LinearLayout>
