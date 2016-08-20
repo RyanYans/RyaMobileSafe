@@ -26,4 +26,32 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+
+    <!--android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:background="@drawable/button"
+    android:drawableRight="@drawable/next"
+    android:text="下一页"-->
+    <style name="NextBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:drawableRight">@drawable/next</item>
+        <item name="android:text">下一页</item>
+    </style>
+
+    <style name="LastBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:drawableLeft">@drawable/previous</item>
+        <item name="android:text">上一页</item>
+    </style>
+
 </resources>

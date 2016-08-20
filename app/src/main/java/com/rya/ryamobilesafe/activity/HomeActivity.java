@@ -2,11 +2,8 @@ package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,10 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.lidroid.xutils.db.table.Id;
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.utils.ConstantValues;
 import com.rya.ryamobilesafe.utils.SPUtil;
