@@ -9,6 +9,7 @@ import android.widget.TextView;
 /**
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
+ * 自定义控件（单个）
  */
 public class FocusTextView extends TextView {
     public FocusTextView(Context context) {

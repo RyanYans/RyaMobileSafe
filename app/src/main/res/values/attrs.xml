@@ -4,4 +4,7 @@
         <attr name="item_title" format="string" />
         <attr name="item_des" format="string" />
     </declare-styleable>
+    <declare-styleable name="com.rya.ryamobilesafe.view.Setup1SafeItemView">
+        <attr name="safe_setup1_des" format="string" />
+    </declare-styleable>
 </resources>
