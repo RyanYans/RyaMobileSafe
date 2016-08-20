@@ -120,7 +120,7 @@ public class SplashActivity extends Activity {
     }
 
     /**
-     * 弹出对话框
+     * 弹出更新对话框
      *  builder.setIcon
      *  builder.setTitle
      *  builder.setMessage

@@ -14,6 +14,7 @@ import com.rya.ryamobilesafe.R;
 /**
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
+ * 自定义组合控件
  */
 public class SettingItemView extends RelativeLayout {
 
@@ -33,6 +34,7 @@ public class SettingItemView extends RelativeLayout {
     public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        //自定义组合控件 -- 打气筒加载xml的布局(组合控件)
         View.inflate(context, R.layout.view_item_setting, this);
 
         TextView tv_setting_title = (TextView) this.findViewById(R.id.tv_setting_title);
@@ -67,8 +69,4 @@ public class SettingItemView extends RelativeLayout {
         cb_ischeck.setChecked(isCheck);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 }
