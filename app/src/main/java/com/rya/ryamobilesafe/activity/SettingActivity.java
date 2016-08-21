@@ -50,9 +50,9 @@ public class SettingActivity extends Activity {
         siv_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isupdate = !siv_update.isCheck();
-                siv_update.setCheck(isupdate);
-                SPUtil.putBoolean(getApplicationContext(), ConstantValues.ISUPDATE, isupdate);
+                boolean isUpdate = !siv_update.isCheck();
+                siv_update.setCheck(isUpdate);
+                SPUtil.putBoolean(getApplicationContext(), ConstantValues.ISUPDATE, isUpdate);
                 //ToastUtil.show(getApplicationContext(), "点击！");
             }
         });

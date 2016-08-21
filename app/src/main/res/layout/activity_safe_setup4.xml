@@ -12,6 +12,13 @@
         android:text="设置完成"
         android:textSize="22sp" />
 
+    <CheckBox
+        android:id="@+id/cb_safe_isopen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="启动安全保护"
+        android:textSize="20sp" />
 
 
     <LinearLayout
@@ -24,18 +31,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/presence_invisible" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/presence_invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/presence_online" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_invisible" />
     </LinearLayout>
 
     <RelativeLayout
@@ -49,11 +59,14 @@
             android:layout_centerInParent="true"
             android:src="@drawable/phone" />
 
-        <Button style="@style/NextBtn"
-            android:text="设置完成"
-            android:id="@+id/bt_safe_next_setup4"/>
-        <Button style="@style/LastBtn"
-            android:id="@+id/bt_safe_last_setup4"/>
+        <Button
+            android:id="@+id/bt_safe_next_setup4"
+            style="@style/NextBtn"
+            android:text="设置完成" />
+
+        <Button
+            android:id="@+id/bt_safe_last_setup4"
+            style="@style/LastBtn" />
 
     </RelativeLayout>
 

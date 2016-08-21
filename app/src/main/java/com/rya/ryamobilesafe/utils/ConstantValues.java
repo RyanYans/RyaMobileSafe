@@ -24,4 +24,16 @@ public class ConstantValues {
      */
     public static final String SAFE_SETUP1_DES = "safe_setup1_des";
 
+    /**
+     * 绑定sim卡序列
+     */
+    public static final String SAFE_SIM = "safe_sim";
+    /**
+     * 安全号码：选中的联系人
+     */
+    public static final String CONTACT_PHONE = "contact_phone";
+    /**
+     * 是否开启安全防盗保护
+     */
+    public static final String SAFE_ISOPEN = "SAFE_ISOPEN";
 }
