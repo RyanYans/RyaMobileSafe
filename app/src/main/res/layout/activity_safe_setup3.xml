@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="请选择联系人"
-        android:background="@drawable/select_number_buttom"
+        android:background="@drawable/selector_number_buttom"
 
         />
 

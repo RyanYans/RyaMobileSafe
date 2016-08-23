@@ -20,7 +20,7 @@ import com.rya.ryamobilesafe.view.SettingItemView;
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
  */
-public class Setup2Activity extends Activity {
+public class Setup2Activity extends BaseSetupActivity {
 
     private SettingItemView siv_sim_bound;
 
@@ -44,12 +44,7 @@ public class Setup2Activity extends Activity {
         bt_safe_next_setup2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String safe_sim = SPUtil.getString(getApplicationContext(), ConstantValues.SAFE_SIM, "");
-                if (TextUtils.isEmpty(safe_sim)) {
-                    ToastUtil.show(getApplicationContext(), "请绑定SIM卡！");
-                } else {
-                    nextActivity();
-                }
+                nextActivity();
             }
         });
         siv_sim_bound.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +64,30 @@ public class Setup2Activity extends Activity {
         });
     }
 
+    @Override
+    protected void nextActivity() {
+        String safe_sim = SPUtil.getString(getApplicationContext(), ConstantValues.SAFE_SIM, "");
+        if (TextUtils.isEmpty(safe_sim)) {
+            ToastUtil.show(getApplicationContext(), "请绑定SIM卡！");
+        } else {
+            Intent intent = new Intent(getApplicationContext(), Setup3Activity.class);
+            startActivity(intent);
+            finish();
+            //设置平移(下一页)动画
+            overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
+        }
+
+    }
+
+    @Override
+    protected void lastActivity() {
+        Intent intent = new Intent(getApplicationContext(), Setup1Activity.class);
+        startActivity(intent);
+        finish();
+        //设置平移(上一页)动画
+        overridePendingTransition(R.anim.last_in_anim, R.anim.last_out_anim);
+    }
+
     private void initUI() {
         String simseri = SPUtil.getString(getApplicationContext(), ConstantValues.SAFE_SIM, "");
         if (simseri.isEmpty()) {
@@ -76,18 +95,6 @@ public class Setup2Activity extends Activity {
         } else {
             siv_sim_bound.setCheck(true);
         }
-    }
-
-    private void nextActivity() {
-        Intent intent = new Intent(getApplicationContext(), Setup3Activity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void lastActivity() {
-        Intent intent = new Intent(getApplicationContext(), Setup1Activity.class);
-        startActivity(intent);
-        finish();
     }
 
 }

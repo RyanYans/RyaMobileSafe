@@ -116,7 +116,6 @@ public class SplashActivity extends Activity {
             msg.what = HOMEPAGE;
             mHandler.sendMessageDelayed(msg, 4000);
         }
-
     }
 
     /**

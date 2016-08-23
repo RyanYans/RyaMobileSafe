@@ -12,7 +12,7 @@ import com.rya.ryamobilesafe.R;
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
  */
-public class Setup1Activity extends Activity {
+public class Setup1Activity extends BaseSetupActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +27,17 @@ public class Setup1Activity extends Activity {
         });
     }
 
-    private void nextActivity() {
+    protected void nextActivity() {
         Intent intent = new Intent(getApplicationContext(), Setup2Activity.class);
         startActivity(intent);
         finish();
+        //设置平移动画
+        overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
     }
+
+    @Override
+    protected void lastActivity() {
+
+    }
+
 }

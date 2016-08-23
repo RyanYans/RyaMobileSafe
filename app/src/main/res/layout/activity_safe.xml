@@ -1,12 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#55d"
+        android:text="手机防盗" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_safe_l1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安全号码:"
+            android:textColor="#111"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tv_safe_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="X X X"
+            android:textColor="#333"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_safe_l1"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/listview_divider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_safe_l2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="防盗保护当前状态"
+            android:textColor="#111"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/iv_safe_lock"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/lock" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_safe_l2"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/listview_divider" />
+    </RelativeLayout>
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_safe_reset"
+        android:background="@drawable/selector_safe_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#337"
+        android:text="重新进入设置向导 ->"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_safe_reset"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/listview_divider" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TitleStyle"
-        android:background="#55d"
-        android:text="手机防盗"/>
+        android:padding="7dp"
+        android:background="#bbb"
+        android:textSize="18sp"
+        android:textColor="#333"
+        android:text="功能简介"
+        />
+
+    <com.rya.ryamobilesafe.view.Setup1SafeItemView xmlns:safe_setup1="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        safe_setup1:safe_setup1_des="GPS追踪: #*location*#"
+        />
+    <com.rya.ryamobilesafe.view.Setup1SafeItemView xmlns:safe_setup1="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        safe_setup1:safe_setup1_des="播放报警音乐: #*alarm*#"
+        />
+    <com.rya.ryamobilesafe.view.Setup1SafeItemView xmlns:safe_setup1="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        safe_setup1:safe_setup1_des="远程删除数据: #*wipedata*#"
+        />
+    <com.rya.ryamobilesafe.view.Setup1SafeItemView xmlns:safe_setup1="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        safe_setup1:safe_setup1_des="远程锁屏: #*lockscreen*#"
+        />
 
 </LinearLayout>

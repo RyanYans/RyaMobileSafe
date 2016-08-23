@@ -74,4 +74,11 @@ public class SPUtil {
         edit.remove(key);
         edit.apply();
     }
+
+    public static void removeSafeData(Context Context) {
+        remove(Context, ConstantValues.SAFE_ISSETTING);
+        remove(Context, ConstantValues.SAFE_SIM);
+        remove(Context, ConstantValues.CONTACT_PHONE);
+        remove(Context, ConstantValues.SAFE_ISOPEN);
+    }
 }

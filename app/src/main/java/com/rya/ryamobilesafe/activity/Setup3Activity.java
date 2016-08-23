@@ -17,7 +17,7 @@ import com.rya.ryamobilesafe.utils.ToastUtil;
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
  */
-public class Setup3Activity extends Activity {
+public class Setup3Activity extends BaseSetupActivity {
 
     private EditText et_safe_phone;
     private Button bt_safe_last_setup2;
@@ -77,15 +77,28 @@ public class Setup3Activity extends Activity {
         }
     }
 
-    private void nextActivity() {
-        Intent intent = new Intent(getApplicationContext(), Setup4Activity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    protected void nextActivity() {
+        String phone = et_safe_phone.getText().toString().trim();
+        if (!TextUtils.isEmpty(phone)) {
+            SPUtil.putString(getApplicationContext(), ConstantValues.CONTACT_PHONE, phone);
+
+            Intent intent = new Intent(getApplicationContext(), Setup4Activity.class);
+            startActivity(intent);
+            finish();
+            //设置平移动画
+            overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
+        } else {
+            ToastUtil.show(getApplicationContext(), "请输入安全号码！");
+        }
     }
 
-    private void lastActivity() {
+    @Override
+    protected void lastActivity() {
         Intent intent = new Intent(getApplicationContext(), Setup2Activity.class);
         startActivity(intent);
         finish();
+        //设置平移(上一页)动画
+        overridePendingTransition(R.anim.last_in_anim, R.anim.last_out_anim);
     }
 }

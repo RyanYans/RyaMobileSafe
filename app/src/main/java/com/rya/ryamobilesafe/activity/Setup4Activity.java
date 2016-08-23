@@ -16,7 +16,7 @@ import com.rya.ryamobilesafe.utils.ToastUtil;
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
  */
-public class Setup4Activity extends Activity {
+public class Setup4Activity extends BaseSetupActivity {
 
     private Button bt_safe_last_setup2;
     private Button bt_safe_next_setup2;
@@ -61,7 +61,8 @@ public class Setup4Activity extends Activity {
         cb_safe_isopen.setChecked(isChecked);
     }
 
-    private void nextActivity() {
+    @Override
+    protected void nextActivity() {
 
         boolean isOpen = SPUtil.getBoolean(getApplicationContext(), ConstantValues.SAFE_ISOPEN, false);
         if (isOpen) {
@@ -69,14 +70,19 @@ public class Setup4Activity extends Activity {
             Intent intent = new Intent(getApplicationContext(), SafeActivity.class);
             startActivity(intent);
             finish();
+            //设置平移动画
+            overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
         } else {
             ToastUtil.show(getApplicationContext(), "请勾选安全防盗保护！");
         }
     }
 
-    private void lastActivity() {
+    @Override
+    protected void lastActivity() {
         Intent intent = new Intent(getApplicationContext(), Setup3Activity.class);
         startActivity(intent);
         finish();
+        //设置平移(上一页)动画
+        overridePendingTransition(R.anim.last_in_anim, R.anim.last_out_anim);
     }
 }
