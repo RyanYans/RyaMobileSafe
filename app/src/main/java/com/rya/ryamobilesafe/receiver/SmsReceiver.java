@@ -36,7 +36,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 SmsMessage sms = SmsMessage.createFromPdu((byte[]) obj);
                 String messageBody = sms.getMessageBody();
                 if (messageBody.contains("#*alarm*#")) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.yiban);
+                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.OnePerson);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
                 } else if (messageBody.contains("#*location*#")) {
