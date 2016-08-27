@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.rya.ryamobilesafe.utils.ConstantValues;
 import com.rya.ryamobilesafe.utils.SPUtil;
@@ -23,10 +24,12 @@ public class BootReceiver extends BroadcastReceiver {
         String sim = SPUtil.getString(context, ConstantValues.SAFE_SIM, "");
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String simSerialNumber = tm.getSimSerialNumber() + "xxx";
-        if (!sim.equals(simSerialNumber)) {
-            String phone = SPUtil.getString(context, ConstantValues.CONTACT_PHONE, "");
-            SmsManager sm = SmsManager.getDefault();
-            sm.sendTextMessage(phone, null, "SIM card has Change!!!~", null, null);
+        if (!TextUtils.isEmpty(sim)) {
+            if (!sim.equals(simSerialNumber)) {
+                String phone = SPUtil.getString(context, ConstantValues.CONTACT_PHONE, "");
+                SmsManager sm = SmsManager.getDefault();
+                sm.sendTextMessage(phone, null, "SIM card has Change!!!~", null, null);
+            }
         }
     }
 }

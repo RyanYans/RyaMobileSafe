@@ -30,8 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -75,9 +77,6 @@ public class SplashActivity extends Activity {
     };
     private RelativeLayout rl_root;
 
-    /**
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +90,44 @@ public class SplashActivity extends Activity {
 
         //splash界面开启渐变动画效果
         startAnimation();
+        //初始化数据库信息
+        initDB();
+    }
 
+    private void initDB() {
+        initAddressDB("address.db");
+    }
+
+    private void initAddressDB(String dbName) {
+        String path = getFilesDir().toString().trim();
+        File file = new File(path, "address.db");
+        //判断文件是否存在，不能用 ！null判断！！
+        if (file.exists()) {
+            return;
+        }
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            inputStream = getAssets().open(dbName);
+            fileOutputStream = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            System.out.println("Write it now!");
+            while ((len = inputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (inputStream != null && fileOutputStream != null) {
+                try {
+                    inputStream.close();
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void startAnimation() {
