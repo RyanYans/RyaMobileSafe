@@ -82,11 +82,12 @@ public class HomeActivity extends Activity {
 
                         break;
                     case 7:
-
+                        Intent intent_advtools = new Intent(getApplicationContext(), AdvToolsActivity.class);
+                        startActivity(intent_advtools);
                         break;
                     case 8:
-                        Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
-                        startActivity(intent);
+                        Intent intent_setting = new Intent(getApplicationContext(), SettingActivity.class);
+                        startActivity(intent_setting);
                         break;
                 }
             }

@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="pink">#bb9999</color>
+    <color name="rightbule">#77ffff</color>
+    <color name="rightbule_press">#99ffff</color>
+    <color name="black">#111111</color>
 </resources>

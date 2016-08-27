@@ -14,16 +14,20 @@ public abstract class BaseSetupActivity extends Activity {
 
     private GestureDetector gestureDetector;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 手势移动监测
         gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 if ((e1.getX() - e2.getX()) > 100) {
                     nextActivity();
-                } else if ((e1.getX() - e2.getX() < 100)) {
+                } else if ((e1.getX() - e2.getX() <= 100)) {
                     lastActivity();
                 }
                 return super.onFling(e1, e2, velocityX, velocityY);

@@ -12,6 +12,5 @@ public class DeviceAdmin extends DeviceAdminReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-
     }
 }

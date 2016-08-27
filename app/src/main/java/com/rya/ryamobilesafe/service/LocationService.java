@@ -26,7 +26,6 @@ public class LocationService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("Rya Message >>>>>", "LocationService.....");
 
         //最优方式获取经纬度
         Criteria criteria = new Criteria();
@@ -50,9 +49,12 @@ public class LocationService extends Service{
 
     }
 
+    /**
+     * 位置监听。
+     * 当LocationChanged， 发生位置信息到指定手机
+     */
     private class MyLocationListener implements LocationListener {
 
-        @SuppressLint("LongLogTag")
         @Override
         public void onLocationChanged(Location location) {
             //经度
@@ -65,7 +67,6 @@ public class LocationService extends Service{
             SmsManager smsManager = SmsManager.getDefault();
             String msg = "longitude = " + longitude + ", latitude = " + latitude;
             smsManager.sendTextMessage(phone, null, msg, null, null);
-            Log.i("Rya Message >>>>>>>>>>>> ", msg);
         }
 
         @Override

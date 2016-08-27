@@ -20,15 +20,19 @@ import com.rya.ryamobilesafe.utils.ToastUtil;
  */
 public class SmsReceiver extends BroadcastReceiver {
 
-
     private DevicePolicyManager mDPM;
     private ComponentName mComponentName;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean safe_isopen = SPUtil.getBoolean(context, ConstantValues.SAFE_ISOPEN, false);
-
+        /**
+         * 组件对象、DeviceAdmin字节码
+         */
         mComponentName = new ComponentName(context, DeviceAdmin.class);
+        /**
+         * 获取设备的管理者对象
+         */
         mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         if (safe_isopen) {
             Object[] pdus = (Object[]) intent.getExtras().get("pdus");
@@ -36,14 +40,14 @@ public class SmsReceiver extends BroadcastReceiver {
                 SmsMessage sms = SmsMessage.createFromPdu((byte[]) obj);
                 String messageBody = sms.getMessageBody();
                 if (messageBody.contains("#*alarm*#")) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.OnePerson);
+                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.oneperson);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
                 } else if (messageBody.contains("#*location*#")) {
                     Intent intentLocation = new Intent(context, LocationService.class);
                     context.startService(intentLocation);
                 } else if (messageBody.contains("#*wipedata*#")) {
-                    if (mDPM.isAdminActive(mComponentName)) {
+                    if (mDPM.isAdminActive(mComponentName)) {           //  DevicePolicyManager
                         mDPM.wipeData(0);
                     } else {
                         ToastUtil.show(context, "请到设置 ->安全 ->设备管理器中勾选服务！");

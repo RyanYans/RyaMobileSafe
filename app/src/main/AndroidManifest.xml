@@ -35,6 +35,8 @@
         <activity android:name=".activity.Setup3Activity" />
         <activity android:name=".activity.Setup4Activity" />
         <activity android:name=".activity.SafeContactActivity" />
+        <activity android:name=".activity.AdvToolsActivity" />
+        <activity android:name=".activity.AddrQueryActivity" />
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter >
