@@ -49,7 +49,7 @@ public class SplashActivity extends Activity {
     private int mLocalVersionCode;
     private String mVersionName;
     private String mVersionUrl;
-    private static final String TAG = "SplashActivity";
+    private static final String TAG = "SplashActivity >>";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
