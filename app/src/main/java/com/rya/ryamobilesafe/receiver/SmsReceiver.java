@@ -34,6 +34,7 @@ public class SmsReceiver extends BroadcastReceiver {
          * 获取设备的管理者对象
          */
         mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+
         if (safe_isopen) {
             Object[] pdus = (Object[]) intent.getExtras().get("pdus");
             for (Object obj : pdus) {

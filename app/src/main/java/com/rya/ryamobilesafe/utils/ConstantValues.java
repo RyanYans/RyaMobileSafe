@@ -35,5 +35,7 @@ public class ConstantValues {
     /**
      * 是否开启安全防盗保护
      */
-    public static final String SAFE_ISOPEN = "SAFE_ISOPEN";
+    public static final String SAFE_ISOPEN = "safe_isopen";
+    public static final String ISBELONG = "isbelong";
+    public static final String TOAST_STYLE = "toast_style";
 }

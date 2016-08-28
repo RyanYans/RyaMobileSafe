@@ -61,4 +61,11 @@
         mobilesafe:item_title="电话归属地查询设置"
         mobilesafe:item_des="查询电话归属地" />
 
+    <com.rya.ryamobilesafe.view.SettingClickView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/scv_toast_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="归属地弹框显示风格"
+         />
+
 </LinearLayout>

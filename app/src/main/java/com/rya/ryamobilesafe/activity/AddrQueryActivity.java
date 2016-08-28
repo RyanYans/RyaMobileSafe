@@ -1,9 +1,11 @@
 package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -80,18 +82,24 @@ public class AddrQueryActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 String phone = et_advtools_addrquery_phone.getText().toString().trim();
-                if (TextUtils.isEmpty(phone)) {
+                /*if (TextUtils.isEmpty(phone)) {
                     shakeET();
                     return;
-                }
+                }*/
                 query(phone);
             }
         });
     }
 
     private void shakeET() {
+        //写入栏弹动
         Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
         et_advtools_addrquery_phone.startAnimation(shake);
+
+        //手机震动
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(2000);
+//        vibrator.vibrate(new long[]{2000, 2500, 2000, 2500}, 2);
     }
 
     private void query(String phone) {

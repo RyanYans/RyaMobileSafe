@@ -52,6 +52,14 @@ public class SPUtil {
         edit.putString(key, value);
         edit.apply();
     }
+    public static void putInt(Context context, String key, int value) {
+        if(sp == null){
+            sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putInt(key, value);
+        edit.apply();
+    }
 
     /**
      * @param context   上下文环境
@@ -80,5 +88,12 @@ public class SPUtil {
         remove(Context, ConstantValues.SAFE_SIM);
         remove(Context, ConstantValues.CONTACT_PHONE);
         remove(Context, ConstantValues.SAFE_ISOPEN);
+    }
+
+    public static int getInt(Context context, String key, int defValue) {
+        if (sp == null) {
+            sp =  context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        return sp.getInt(key, defValue);
     }
 }
