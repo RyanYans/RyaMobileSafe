@@ -38,4 +38,10 @@ public class ConstantValues {
     public static final String SAFE_ISOPEN = "safe_isopen";
     public static final String ISBELONG = "isbelong";
     public static final String TOAST_STYLE = "toast_style";
+
+    /**
+     * toast位置的 左上角 点
+     */
+    public static final String TOAST_LOCATION_X = "toast_location_x";
+    public static final String TOAST_LOCATION_Y = "toast_location_y";
 }

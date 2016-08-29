@@ -39,6 +39,8 @@
         <activity android:name=".activity.SafeContactActivity" />
         <activity android:name=".activity.AdvToolsActivity" />
         <activity android:name=".activity.AddrQueryActivity" />
+        <activity android:name=".activity.ToastLocationActicity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter >

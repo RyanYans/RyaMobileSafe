@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.engin.AddressDao;
+import com.rya.ryamobilesafe.utils.ConstantValues;
+import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;
 
 /**
@@ -118,9 +120,20 @@ public class AddressService extends Service {
         //自定义View
         mView = View.inflate(getApplicationContext(), R.layout.view_address_toast, null);
 
+        TextView tv_service_address = (TextView) mView.findViewById(R.id.tv_service_address);
+        int index = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_STYLE, 0);
+        int[] draColor = {R.drawable.call_locate_white,
+                R.drawable.call_locate_orange,
+                R.drawable.call_locate_blue,
+                R.drawable.call_locate_gray,
+                R.drawable.call_locate_green,
+        };
+        tv_service_address.setBackgroundResource(draColor[index]);
+
         query(incomingNumber);
 
         //添加至窗体对象
         mWindowManager.addView(mView, params);
+
     }
 }

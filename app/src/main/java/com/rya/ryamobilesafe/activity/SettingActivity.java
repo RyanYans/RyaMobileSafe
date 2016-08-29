@@ -1,8 +1,11 @@
 package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +27,10 @@ import com.rya.ryamobilesafe.view.SettingItemView;
  */
 public class SettingActivity extends Activity {
 
+    private String[] mDesColor;
+    private int mIndex;
+    private SettingClickView scv_toast_style;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +39,61 @@ public class SettingActivity extends Activity {
         initUpdate();
         initBelong();
         initToastStyle();
+        initToastLocation();
+    }
+
+    private void initToastLocation() {
+        SettingClickView scv_toast_location = (SettingClickView) findViewById(R.id.scv_toast_location);
+
+        scv_toast_location.setDesc("设置归属地提示框位置");
+        scv_toast_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ToastLocationActicity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initToastStyle() {
-        SettingClickView scv_toast_style = (SettingClickView) findViewById(R.id.scv_toast_style);
+        scv_toast_style = (SettingClickView) findViewById(R.id.scv_toast_style);
 
-        //设置描述Toast样式的类型数组
-        String[] des_color = {"透明", "黄色", "蓝色", "灰色", "绿色"};
-        //根据存在SP中的样式号来获取样式类型
-        int index = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_STYLE, 0);
-        //通过String[]索引，把Toast样式显示在Des栏中
-        scv_toast_style.setDesc(des_color[index]);
+        //1.设置描述Toast样式的类型数组
+        mDesColor = new String[]{"透明", "黄色", "蓝色", "灰色", "绿色"};
+        //2.根据存在SP中的样式号来获取样式类型
+        mIndex = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_STYLE, 0);
+        //3.通过String[]索引，把Toast样式显示在Des栏中
+        scv_toast_style.setDesc(mDesColor[mIndex]);
+        //4.监听点击事件，弹出对话框
+        scv_toast_style.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStyleDialog();
+            }
+        });
     }
+
+    private void showStyleDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_launcher);
+        builder.setTitle("设置样式");
+        builder.setSingleChoiceItems(mDesColor, mIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_STYLE, which);
+                dialog.dismiss();
+                scv_toast_style.setDesc(mDesColor[which]);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 
     /**
      * 归属地查询

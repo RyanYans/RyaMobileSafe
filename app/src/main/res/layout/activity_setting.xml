@@ -65,7 +65,13 @@
         android:id="@+id/scv_toast_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        mobilesafe:item_title="归属地弹框显示风格"
+        mobilesafe:item_title="归属地提示框显示风格"
+         />
+    <com.rya.ryamobilesafe.view.SettingClickView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/scv_toast_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="归属地提示框位置"
          />
 
 </LinearLayout>
