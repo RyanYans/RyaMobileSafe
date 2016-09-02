@@ -10,7 +10,9 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -32,6 +34,9 @@ public class AddressService extends Service {
     private WindowManager.LayoutParams mParams;
     private WindowManager mWindowManager;
     private View mView;
+    private int screenWidth;
+    private int screenHeight;
+    private Display mDefaultDisplay;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -42,6 +47,7 @@ public class AddressService extends Service {
         }
     };
     private String location;
+    private TextView tv_service_address;
 
     @Override
     public void onCreate() {
@@ -50,8 +56,11 @@ public class AddressService extends Service {
         mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         listener = new MyPhoneStateListener();
         mTelephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
-
         mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+
+        mDefaultDisplay = mWindowManager.getDefaultDisplay();
+        screenWidth = mDefaultDisplay.getWidth();
+        screenHeight = mDefaultDisplay.getHeight();
 
     }
 
@@ -114,13 +123,17 @@ public class AddressService extends Service {
         params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
-        //指定位置
-        params.gravity = Gravity.CENTER_HORIZONTAL + Gravity.BOTTOM;
+        //指定属性 --位置
+        params.gravity = Gravity.TOP + Gravity.LEFT;
 
         //自定义View
         mView = View.inflate(getApplicationContext(), R.layout.view_address_toast, null);
+        tv_service_address = (TextView) mView.findViewById(R.id.tv_service_address);
 
-        TextView tv_service_address = (TextView) mView.findViewById(R.id.tv_service_address);
+            //设置左上角坐标  --相对于Gravity
+        params.x = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_X, 0);
+        params.y = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_Y, 0);
+
         int index = SPUtil.getInt(getApplicationContext(), ConstantValues.TOAST_STYLE, 0);
         int[] draColor = {R.drawable.call_locate_white,
                 R.drawable.call_locate_orange,
@@ -134,6 +147,56 @@ public class AddressService extends Service {
 
         //添加至窗体对象
         mWindowManager.addView(mView, params);
+
+        mView.setOnTouchListener(new View.OnTouchListener() {
+            private float startY;
+            private float startX;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        //获取开始点击点到远点距离
+                        startX = event.getRawX();
+                        startY = event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        float moveX = event.getRawX();
+                        float moveY = event.getRawY();
+
+                        float disX = moveX - startX;
+                        float disY = moveY - startY;
+
+                        params.x = (int) (params.x + disX);
+                        params.y = (int) (params.y + disY);
+
+                        // 容错处理， 提示框不得移出屏幕
+                        if ((params.x < 0) || (params.y < 0)
+                                || (params.x + mView.getWidth() > screenWidth)
+                                || (params.y + mView.getHeight() + 70 > screenHeight)) {
+                            return true;
+                        }
+
+                        mWindowManager.updateViewLayout(mView, params);
+
+                        //重置坐标
+                        startX = event.getRawX();
+                        startY = event.getRawY();
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_X, params.x);
+                        SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_Y, params.y);
+
+                        break;
+                }
+
+                //若有多个点击事件，返回false，让系统执行回掉
+                return false;
+            }
+
+        });
 
     }
 }

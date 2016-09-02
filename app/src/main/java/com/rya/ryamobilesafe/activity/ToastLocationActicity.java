@@ -53,6 +53,12 @@ public class ToastLocationActicity extends Activity {
             private float startY;
             private float startX;
 
+            /**
+             *  触摸监听，计算每次拖动移动的距离
+             *  --按下
+             *  --移动
+             *  --抬起
+             */
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -77,6 +83,7 @@ public class ToastLocationActicity extends Activity {
                         if ((newLeft < 0) || (newRight > screenWidth) || (newTop < 0) || (newBottom > screenHeight-70)) {
                             return true;
                         }
+                        //上下提示框的可视位置
                         if (newTop > screenHeight / 2) {
                             btn_toast_top.setVisibility(View.VISIBLE);
                             btn_toast_bottom.setVisibility(View.INVISIBLE);
@@ -119,11 +126,13 @@ public class ToastLocationActicity extends Activity {
                     layoutParams.leftMargin = (screenWidth / 2) - (iv_toast_drag.getWidth()/2);
                     layoutParams.topMargin = (screenHeight / 2) - (iv_toast_drag.getHeight() / 2);
 
-                    //保存提示框位置数据
-                    SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_X, layoutParams.leftMargin);
-                    SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_Y, layoutParams.topMargin);
 
                     iv_toast_drag.setLayoutParams(layoutParams);
+
+                    //保存提示框位置数据
+                    SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_X, iv_toast_drag.getLeft());
+                    SPUtil.putInt(getApplicationContext(), ConstantValues.TOAST_LOCATION_Y, iv_toast_drag.getTop());
+
                 }
             }
         });
