@@ -39,26 +39,32 @@
         <activity android:name=".activity.SafeContactActivity" />
         <activity android:name=".activity.AdvToolsActivity" />
         <activity android:name=".activity.AddrQueryActivity" />
-        <activity android:name=".activity.ToastLocationActicity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name=".activity.ToastLocationActicity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.SmogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <receiver android:name=".receiver.BootReceiver">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <receiver android:name=".receiver.SmsReceiver">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receiver.DeviceAdmin"
-            android:label="@string/sample_device_admin"
+        <receiver
+            android:name=".receiver.DeviceAdmin"
             android:description="@string/sample_device_admin_description"
+            android:label="@string/sample_device_admin"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data android:name="android.app.device_admin"
+            <meta-data
+                android:name="android.app.device_admin"
                 android:resource="@xml/device_admin_sample" />
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
@@ -67,6 +73,7 @@
 
         <service android:name=".service.LocationService" />
         <service android:name=".service.AddressService" />
+        <service android:name=".service.RocketService" />
 
     </application>
 

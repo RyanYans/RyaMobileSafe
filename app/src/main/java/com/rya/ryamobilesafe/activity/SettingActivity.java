@@ -11,9 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.service.AddressService;
+import com.rya.ryamobilesafe.service.RocketService;
 import com.rya.ryamobilesafe.utils.ConstantValues;
 import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.ServiceUtil;
@@ -40,6 +42,29 @@ public class SettingActivity extends Activity {
         initBelong();
         initToastStyle();
         initToastLocation();
+        initRocket();
+    }
+
+    private void initRocket() {
+        final SettingItemView siv_rocket = (SettingItemView) findViewById(R.id.siv_rocket);
+        boolean is_checked = ServiceUtil.checkService(getApplicationContext(), "com.rya.ryamobilesafe.service.RocketService");
+        siv_rocket.setCheck(is_checked);
+
+        siv_rocket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb_ischeck = (CheckBox)siv_rocket.findViewById(R.id.cb_ischeck);
+                boolean checked = !cb_ischeck.isChecked();
+                siv_rocket.setCheck(checked);
+                if (checked) {
+                    Intent intent = new Intent(getApplicationContext(), RocketService.class);
+                    startService(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), RocketService.class);
+                    stopService(intent);
+                }
+            }
+        });
     }
 
     private void initToastLocation() {
@@ -101,6 +126,7 @@ public class SettingActivity extends Activity {
     private void initBelong() {
         final SettingItemView siv_belong = (SettingItemView) findViewById(R.id.siv_belong);
 
+        //每次打开设置界面检测服务是否开启
         boolean isbelong = ServiceUtil.checkService(getApplicationContext(), "com.rya.ryamobilesafe.service.AddressService");
         siv_belong.setCheck(isbelong);
 

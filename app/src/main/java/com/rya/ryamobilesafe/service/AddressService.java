@@ -56,8 +56,8 @@ public class AddressService extends Service {
         mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         listener = new MyPhoneStateListener();
         mTelephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
-        mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
+        mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         mDefaultDisplay = mWindowManager.getDefaultDisplay();
         screenWidth = mDefaultDisplay.getWidth();
         screenHeight = mDefaultDisplay.getHeight();
@@ -148,6 +148,7 @@ public class AddressService extends Service {
         //添加至窗体对象
         mWindowManager.addView(mView, params);
 
+        //来电界面提示框触摸监听
         mView.setOnTouchListener(new View.OnTouchListener() {
             private float startY;
             private float startX;
@@ -171,10 +172,18 @@ public class AddressService extends Service {
                         params.y = (int) (params.y + disY);
 
                         // 容错处理， 提示框不得移出屏幕
-                        if ((params.x < 0) || (params.y < 0)
-                                || (params.x + mView.getWidth() > screenWidth)
-                                || (params.y + mView.getHeight() + 70 > screenHeight)) {
-                            return true;
+                        if (params.x < 0) {
+                            params.x = 0;
+                        }
+                        if (params.y < 0) {
+                            params.y = 0;
+                        }
+
+                        if (params.x + mView.getWidth() > screenWidth) {
+                            params.x = screenWidth - mView.getWidth();
+                        }
+                        if (params.y + mView.getHeight() + 70 > screenHeight) {
+                            params.y = screenHeight - mView.getHeight() - 70;
                         }
 
                         mWindowManager.updateViewLayout(mView, params);

@@ -20,6 +20,8 @@ public class SettingItemView extends RelativeLayout {
     private static final String NAMESPACE = "http://schemas.android.com/apk/res/com.rya.ryamobilesafe";
     private String item_title;
     private String item_des;
+    private TextView tv_setting_title;
+    private TextView tv_setting_des;
 
     public SettingItemView(Context context) {
         this(context, null);
@@ -35,19 +37,20 @@ public class SettingItemView extends RelativeLayout {
         //自定义组合控件 -- 打气筒加载xml的布局(组合控件)
         View.inflate(context, R.layout.view_item_setting, this);
 
-        TextView tv_setting_title = (TextView) this.findViewById(R.id.tv_setting_title);
-        TextView tv_setting_des = (TextView) this.findViewById(R.id.tv_setting_des);
+        tv_setting_title = (TextView) this.findViewById(R.id.tv_setting_title);
+        tv_setting_des = (TextView) this.findViewById(R.id.tv_setting_des);
         cb_ischeck = (CheckBox) this.findViewById(R.id.cb_ischeck);
 
         initArrts(attrs);
 
-        tv_setting_title.setText(item_title);
-        tv_setting_des.setText(item_des);
     }
 
     private void initArrts(AttributeSet attrs) {
         item_title = attrs.getAttributeValue(NAMESPACE, "item_title");
         item_des = attrs.getAttributeValue(NAMESPACE, "item_des");
+
+        tv_setting_title.setText(item_title);
+        tv_setting_des.setText(item_des);
     }
 
     /**

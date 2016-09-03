@@ -73,5 +73,11 @@
         android:layout_height="wrap_content"
         mobilesafe:item_title="归属地提示框位置"
          />
+    <com.rya.ryamobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/siv_rocket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="安全助手挂载设置"
+        mobilesafe:item_des="安全助手窗体挂载" />
 
 </LinearLayout>
