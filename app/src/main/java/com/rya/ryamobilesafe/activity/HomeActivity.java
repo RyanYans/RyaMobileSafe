@@ -64,7 +64,9 @@ public class HomeActivity extends Activity {
                         showDialog();
                         break;
                     case 1:
-
+                        //跳转至通信卫士模块
+                        Intent intent = new Intent(getApplicationContext(), BlackNumberActivity.class);
+                        startActivity(intent);
                         break;
                     case 2:
 

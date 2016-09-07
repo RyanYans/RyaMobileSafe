@@ -1,8 +1,10 @@
 package com.rya.ryamobilesafe.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
@@ -48,6 +50,7 @@ public class AddressService extends Service {
     };
     private String location;
     private TextView tv_service_address;
+    private OutGoingCallReceiver mOutGoingCallReceiver;
 
     @Override
     public void onCreate() {
@@ -61,6 +64,15 @@ public class AddressService extends Service {
         mDefaultDisplay = mWindowManager.getDefaultDisplay();
         screenWidth = mDefaultDisplay.getWidth();
         screenHeight = mDefaultDisplay.getHeight();
+
+        //创建广播过滤器（+权限）
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_NEW_OUTGOING_CALL);
+
+        //开启广播
+        mOutGoingCallReceiver = new OutGoingCallReceiver();
+        //添加过滤条件
+        registerReceiver(mOutGoingCallReceiver, intentFilter);
 
     }
 
@@ -76,11 +88,14 @@ public class AddressService extends Service {
         if (mTelephonyManager != null && listener != null) {
             mTelephonyManager.listen(listener, PhoneStateListener.LISTEN_NONE);
         }
+        if (mOutGoingCallReceiver != null) {
+            unregisterReceiver(mOutGoingCallReceiver);
+        }
     }
 
     private class MyPhoneStateListener extends PhoneStateListener {
         @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
+         public void onCallStateChanged(int state, String incomingNumber) {
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:  //空闲中
                     ToastUtil.show(getApplicationContext(), "空闲中。。。");
@@ -207,5 +222,16 @@ public class AddressService extends Service {
 
         });
 
+    }
+
+    private class OutGoingCallReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //在广播中获取播出电话号码字符串
+            String phone = this.getResultData();
+            ToastUtil.show(context, "Now Outgoning Call");
+            showToast(phone);
+        }
     }
 }

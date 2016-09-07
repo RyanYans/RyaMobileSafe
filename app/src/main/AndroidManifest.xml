@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +40,7 @@
         <activity android:name=".activity.SafeContactActivity" />
         <activity android:name=".activity.AdvToolsActivity" />
         <activity android:name=".activity.AddrQueryActivity" />
+        <activity android:name=".activity.BlackNumberActivity" />
         <activity
             android:name=".activity.ToastLocationActicity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

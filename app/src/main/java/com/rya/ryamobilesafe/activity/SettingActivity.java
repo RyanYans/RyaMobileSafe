@@ -53,7 +53,7 @@ public class SettingActivity extends Activity {
         siv_rocket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox cb_ischeck = (CheckBox)siv_rocket.findViewById(R.id.cb_ischeck);
+                CheckBox cb_ischeck = (CheckBox) siv_rocket.findViewById(R.id.cb_ischeck);
                 boolean checked = !cb_ischeck.isChecked();
                 siv_rocket.setCheck(checked);
                 if (checked) {

@@ -14,7 +14,7 @@ import com.rya.ryamobilesafe.R;
  * Version 1.0
  */
 public class SmogActivity extends Activity {
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             SmogActivity.this.finish();

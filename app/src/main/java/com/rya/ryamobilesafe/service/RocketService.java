@@ -130,7 +130,7 @@ public class RocketService extends Service {
                         break;
                     case MotionEvent.ACTION_UP:
                         Log.i("RocketLocation", "params.x >>> " + params.x + "params.y >>> " + params.y);
-                        if (params.x > (screenWidth/5) && params.x < ((2*screenWidth)/3) && params.y > ((3*screenHeight)/5)) {
+                        if (params.x > (screenWidth / 5) && params.x < ((2 * screenWidth) / 3) && params.y > ((3 * screenHeight) / 5)) {
                             sendRocket();
 
                             //产生Rocket尾气Activity
@@ -158,7 +158,7 @@ public class RocketService extends Service {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    params.y = ((i*screenHeight)/10);
+                    params.y = ((i * screenHeight) / 10);
                     Message msg = Message.obtain();
                     msg.what = ROCKET_OK;
                     mHandler.sendMessage(msg);
