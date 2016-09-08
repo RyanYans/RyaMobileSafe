@@ -18,11 +18,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testBlackNumberDao() {
         BlackNumberDao blackNumberDao = BlackNumberDao.create(getContext());
-        List<BlackNumber> list = blackNumberDao.searchAll();
-        for(int i = 0; i < list.size(); i++ ) {
-            String phone = list.get(0).getPhone();
-            String state = list.get(0).getState();
-            System.out.println(phone + " >>>>>> " + state);
-        }
+
+        blackNumberDao.update("13713320867", "2");
     }
 }
