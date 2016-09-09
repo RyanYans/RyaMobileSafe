@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,9 @@ import java.util.List;
 /**
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
+ * <p>
+ * 复用converview
+ * 对finviewById次数进行优化
  */
 public class BlackNumberActivity extends Activity {
 
@@ -33,16 +37,21 @@ public class BlackNumberActivity extends Activity {
     private Button btn_add_blacknumber;
     private List<BlackNumber> mBlackNumberList;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            mAdapter = new MyAdapter();
-            lv_blacknumber.setAdapter(mAdapter);
+            if (mAdapter == null) {
+                mAdapter = new MyAdapter();
+                lv_blacknumber.setAdapter(mAdapter);
+            } else {
+                mAdapter.notifyDataSetChanged();
+            }
         }
     };
     private MyAdapter mAdapter;
     private BlackNumberDao mBlackNumberDao;
+    private boolean isLoad = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +88,7 @@ public class BlackNumberActivity extends Activity {
 
         btn_add_blacknumber_submit.setOnClickListener(new View.OnClickListener() {
             int mode;
+
             @Override
             public void onClick(View v) {
                 int checkedRadioButtonId = rg_blacknumbergroup.getCheckedRadioButtonId();
@@ -96,12 +106,12 @@ public class BlackNumberActivity extends Activity {
 
                 String phone = et_blacknumber_add.getText().toString();
                 if (!TextUtils.isEmpty(phone)) {
-                    mBlackNumberDao.insert(phone,Integer.toString(mode));
+                    mBlackNumberDao.insert(phone, Integer.toString(mode));
                     // 同步数据到listview！
                     BlackNumber blackNumber = new BlackNumber();
                     blackNumber.setPhone(phone);
                     blackNumber.setState(Integer.toString(mode));
-                    mBlackNumberList.add(0,blackNumber);
+                    mBlackNumberList.add(0, blackNumber);
                     if (mAdapter != null) {
                         mAdapter.notifyDataSetChanged();
                     }
@@ -126,7 +136,7 @@ public class BlackNumberActivity extends Activity {
             @Override
             public void run() {
                 mBlackNumberDao = BlackNumberDao.create(getApplicationContext());
-                mBlackNumberList = mBlackNumberDao.searchAll();
+                mBlackNumberList = mBlackNumberDao.searchPart(0);
 
                 mHandler.sendEmptyMessage(0);
 
@@ -138,6 +148,40 @@ public class BlackNumberActivity extends Activity {
         lv_blacknumber = (ListView) findViewById(R.id.lv_blacknumber);
         btn_add_blacknumber = (Button) findViewById(R.id.btn_add_blacknumber);
 
+        lv_blacknumber.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                AbsListView.OnScrollListener.SCROLL_STATE_FLING       自然滚动
+//                AbsListView.OnScrollListener.SCROLL_STATE_IDLE        空闲
+//                AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL    拖动（触摸）
+
+                //空闲状态 + 最后一条位置 >= 总条数 + 不处于加载数据状态
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+                        && (lv_blacknumber.getLastVisiblePosition() >= (mBlackNumberList.size() - 1))
+                        && !isLoad) {
+                    if (mBlackNumberList.size() < mBlackNumberDao.countAll()) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+
+                                List<BlackNumber> newBlackNumberList = mBlackNumberDao.searchPart(mBlackNumberList.size());
+                                mBlackNumberList.addAll(newBlackNumberList);
+
+                                mHandler.sendEmptyMessage(0);
+                            }
+                        }.start();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -158,13 +202,26 @@ public class BlackNumberActivity extends Activity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+            View view;
+            ViewHolder viewHolder = null;
 
-            View view = View.inflate(getApplicationContext(), R.layout.listview_blacknumber_item, null);
-            TextView tv_blacknumber_phone = (TextView) view.findViewById(R.id.tv_blacknumber_phone);
-            TextView tv_blacknumber_state = (TextView) view.findViewById(R.id.tv_blacknumber_state);
-            ImageView iv_blacknumber_delete = (ImageView) view.findViewById(R.id.iv_blacknumber_delete);
+            if (convertView != null) {
+                view = convertView;
+                viewHolder = (ViewHolder) view.getTag();
+            } else {
+                view = View.inflate(getApplicationContext(), R.layout.listview_blacknumber_item, null);
 
-            iv_blacknumber_delete.setOnClickListener(new View.OnClickListener() {
+                viewHolder = new ViewHolder();
+
+                viewHolder.tv_blacknumber_phone = (TextView) view.findViewById(R.id.tv_blacknumber_phone);
+                viewHolder.tv_blacknumber_state = (TextView) view.findViewById(R.id.tv_blacknumber_state);
+                viewHolder.iv_blacknumber_delete = (ImageView) view.findViewById(R.id.iv_blacknumber_delete);
+
+                view.setTag(viewHolder);
+            }
+
+
+            viewHolder.iv_blacknumber_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mBlackNumberDao.delete(mBlackNumberList.get(position).getPhone());
@@ -176,20 +233,26 @@ public class BlackNumberActivity extends Activity {
             });
 
             String phone = mBlackNumberList.get(position).getPhone();
-                tv_blacknumber_phone.setText(phone);
-                String state = mBlackNumberList.get(position).getState();
-                switch (state) {
-                    case "0":
-                        tv_blacknumber_state.setText("拦截短信");
-                        break;
-                    case "1":
-                        tv_blacknumber_state.setText("拦截电话");
-                        break;
-                    case "2":
-                        tv_blacknumber_state.setText("拦截所有");
-                        break;
-                }
+            viewHolder.tv_blacknumber_phone.setText(phone);
+            String state = mBlackNumberList.get(position).getState();
+            switch (state) {
+                case "0":
+                    viewHolder.tv_blacknumber_state.setText("拦截短信");
+                    break;
+                case "1":
+                    viewHolder.tv_blacknumber_state.setText("拦截电话");
+                    break;
+                case "2":
+                    viewHolder.tv_blacknumber_state.setText("拦截所有");
+                    break;
+            }
             return view;
         }
+    }
+
+    private static class ViewHolder {
+        TextView tv_blacknumber_phone;
+        TextView tv_blacknumber_state;
+        ImageView iv_blacknumber_delete;
     }
 }

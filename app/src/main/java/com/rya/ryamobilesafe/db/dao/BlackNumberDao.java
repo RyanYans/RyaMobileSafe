@@ -85,4 +85,58 @@ public class BlackNumberDao {
 
         return blackNumberList;
     }
+
+    public List<BlackNumber> searchPart(int index) {
+        SQLiteDatabase db = mBlackNumberOpenHelper.getWritableDatabase();
+        List<BlackNumber> blackNumberList = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("select phone,state from BlackNumber order by _id desc limit ?,15;", new String[]{Integer.toString(index)});
+        while (cursor.moveToNext()) {
+            BlackNumber blackNumber = new BlackNumber();
+            blackNumber.setPhone(cursor.getString(0));
+            blackNumber.setState(cursor.getString(1));
+            blackNumberList.add(blackNumber);
+        }
+        cursor.close();
+        db.close();
+
+        return blackNumberList;
+    }
+
+    public int countAll() {
+        SQLiteDatabase db = mBlackNumberOpenHelper.getWritableDatabase();
+        List<BlackNumber> blackNumberList = new ArrayList<>();
+        int count = 0;
+
+        Cursor cursor = db.rawQuery("select count(*) from blacknumber;", null);
+        if (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+        }
+        while (cursor.moveToNext()) {
+            BlackNumber blackNumber = new BlackNumber();
+            blackNumber.setPhone(cursor.getString(0));
+            blackNumber.setState(cursor.getString(1));
+            blackNumberList.add(blackNumber);
+        }
+        cursor.close();
+        db.close();
+
+        return count;
+    }
+
+
+    public String getState(String phone) {
+        SQLiteDatabase db = mBlackNumberOpenHelper.getWritableDatabase();
+        String state = null;
+
+        Cursor cursor = db.query("BlackNumber", new String[]{"state"}, "phone = ?", new String[]{phone}, null, null, null);
+        if (cursor.moveToNext()) {
+            state =  cursor.getString(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return state;
+    }
 }

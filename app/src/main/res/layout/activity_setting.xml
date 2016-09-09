@@ -80,4 +80,11 @@
         mobilesafe:item_title="安全助手挂载设置"
         mobilesafe:item_des="安全助手窗体挂载" />
 
+    <com.rya.ryamobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.rya.ryamobilesafe"
+        android:id="@+id/siv_blacknumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mobilesafe:item_title="黑名单拦截设置"
+        mobilesafe:item_des="拦截黑名单" />
+
 </LinearLayout>
