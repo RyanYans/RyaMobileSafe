@@ -5,28 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.AnimationDrawable;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.android.internal.telephony.ITelephony;
-import com.rya.ryamobilesafe.R;
-import com.rya.ryamobilesafe.activity.SmogActivity;
 import com.rya.ryamobilesafe.db.dao.BlackNumberDao;
-import com.rya.ryamobilesafe.db.domain.BlackNumber;
 import com.rya.ryamobilesafe.utils.ToastUtil;
 
 import java.lang.reflect.Method;
@@ -39,8 +28,9 @@ public class BlackNumberService extends Service {
 
     private innerBrocastReceiver mReceiver;
     private TelephonyManager mTelephonyManager;
-    private MyPhoneStateListener listener;
+    private MyPhoneStateListener mListener;
     private BlackNumberDao mBlackNumberDao;
+    private MyContentObserver mContentObserver;
 
     @Override
     public void onCreate() {
@@ -55,8 +45,8 @@ public class BlackNumberService extends Service {
         registerReceiver(mReceiver, intentFilter);
 
         mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        listener = new MyPhoneStateListener();
-        mTelephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+        mListener = new MyPhoneStateListener();
+        mTelephonyManager.listen(mListener, PhoneStateListener.LISTEN_CALL_STATE);
 
     }
 
@@ -69,7 +59,18 @@ public class BlackNumberService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mReceiver);
+        // 注销广播监听
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+        //注销内容观察者
+        if (mContentObserver != null) {
+            getContentResolver().unregisterContentObserver(mContentObserver);
+        }
+        //取消电话监听
+        if (mTelephonyManager != null) {
+            mTelephonyManager.listen(mListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 
     private class innerBrocastReceiver extends BroadcastReceiver {
@@ -81,7 +82,6 @@ public class BlackNumberService extends Service {
                 SmsMessage sms = SmsMessage.createFromPdu((byte[]) obj);
                 String phone = sms.getOriginatingAddress();
 
-
                 String state = mBlackNumberDao.getState(phone);
                 ToastUtil.show(getApplicationContext(),">>>>>>>>>>>  " + state);
                 if ("0".equals(state) || "2".equals(state)) {
@@ -90,7 +90,6 @@ public class BlackNumberService extends Service {
                     abortBroadcast();
                 }
             }
-
         }
     }
 
@@ -107,14 +106,14 @@ public class BlackNumberService extends Service {
                 case TelephonyManager.CALL_STATE_RINGING:  //响铃中
                     String sta = mBlackNumberDao.getState(incomingNumber);
                     if ("1".equals(sta) || "2".equals(sta)) {
-                        endcall();
+                        endcall(incomingNumber);
                     }
                     break;
             }
         }
     }
 
-    private void endcall() {
+    private void endcall(String phone) {
 //        ITelephony.Stub.asInterface(ServiceManager.getService(Context.TELEPHONY_SERVICE));
         try {
             ToastUtil.show(getApplicationContext(), "拦截！拦截~");
@@ -125,6 +124,33 @@ public class BlackNumberService extends Service {
             iTelephony.endCall();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+
+        //删除盖电话的通信记录    "contents://call_log/calls"
+        mContentObserver = new MyContentObserver(new Handler(), phone);
+        this.getContentResolver().registerContentObserver(Uri.parse("content://call_log/calls"), true, mContentObserver);
+
+    }
+
+    private class MyContentObserver extends ContentObserver{
+
+        private final String phone;
+
+        /**
+         * Creates a content observer.
+         *
+         * @param handler The handler to run {@link #onChange} on, or null if none.
+         */
+        public MyContentObserver(Handler handler, String phone) {
+            super(handler);
+            this.phone = phone;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            getContentResolver().delete(Uri.parse("content://call_log/calls"), "number = ?", new String[]{phone});
         }
     }
 }

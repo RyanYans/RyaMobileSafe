@@ -111,6 +111,8 @@ public class BlackNumberActivity extends Activity {
                     BlackNumber blackNumber = new BlackNumber();
                     blackNumber.setPhone(phone);
                     blackNumber.setState(Integer.toString(mode));
+
+                    //从list的首位置插入数据
                     mBlackNumberList.add(0, blackNumber);
                     if (mAdapter != null) {
                         mAdapter.notifyDataSetChanged();
@@ -148,6 +150,7 @@ public class BlackNumberActivity extends Activity {
         lv_blacknumber = (ListView) findViewById(R.id.lv_blacknumber);
         btn_add_blacknumber = (Button) findViewById(R.id.btn_add_blacknumber);
 
+        // lv_blacknumber.setOnScrollListener 设置监听
         lv_blacknumber.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -155,7 +158,7 @@ public class BlackNumberActivity extends Activity {
 //                AbsListView.OnScrollListener.SCROLL_STATE_IDLE        空闲
 //                AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL    拖动（触摸）
 
-                //空闲状态 + 最后一条位置 >= 总条数 + 不处于加载数据状态
+                //空闲状态 + 最后一条位置>=总条数 + 不处于加载数据状态
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
                         && (lv_blacknumber.getLastVisiblePosition() >= (mBlackNumberList.size() - 1))
                         && !isLoad) {
@@ -205,6 +208,7 @@ public class BlackNumberActivity extends Activity {
             View view;
             ViewHolder viewHolder = null;
 
+            //复用ViewHolder，减少FindViewById()的次数
             if (convertView != null) {
                 view = convertView;
                 viewHolder = (ViewHolder) view.getTag();
@@ -217,6 +221,8 @@ public class BlackNumberActivity extends Activity {
                 viewHolder.tv_blacknumber_state = (TextView) view.findViewById(R.id.tv_blacknumber_state);
                 viewHolder.iv_blacknumber_delete = (ImageView) view.findViewById(R.id.iv_blacknumber_delete);
 
+                //  把ViewHolder(textView、imageView..)放入View当中，
+                // 待日后converView服用直接取出ViewHolder
                 view.setTag(viewHolder);
             }
 

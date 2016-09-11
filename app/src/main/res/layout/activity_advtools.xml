@@ -24,11 +24,12 @@
         android:drawableLeft="@android:drawable/star_on"
         />
     <TextView
+        android:id="@+id/tv_backup_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/rightbule"
         android:textColor="@color/black"
-        android:text="号码归属地查询"
+        android:text="短信备份"
         android:textSize="22sp"
         android:gravity="center"
         android:padding="10dp"
@@ -55,6 +56,13 @@
         android:gravity="center"
         android:padding="10dp"
         android:drawableLeft="@android:drawable/star_on"
+        />
+    <ProgressBar
+        android:id="@+id/pb_bksms"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffbbbb"
         />
 
 </LinearLayout>
