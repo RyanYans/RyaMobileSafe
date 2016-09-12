@@ -14,23 +14,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/tv_appmanager_memory"
+            android:id="@+id/tv_appmanager_totalmemory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="内存容量："
+            android:text="总内存容量："
             android:textColor="#333" />
 
         <TextView
-            android:id="@+id/tv_appmanager_sdmemory"
+            android:id="@+id/tv_appmanager_avilmemory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SD卡容量："
+            android:text="可用内存容量："
             android:textColor="#333" />
     </LinearLayout>
 
