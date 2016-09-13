@@ -34,11 +34,24 @@
             android:textColor="#333" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_appmanager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-    </ListView>
+        <ListView
+            android:id="@+id/lv_appmanager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <TextView
+            android:padding="5dp"
+            android:id="@+id/tv_appmanager_des"
+            android:background="#f99"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户应用（X）"
+            android:textSize="16sp"
+            android:textColor="#111"
+            />
+    </FrameLayout>
 
 </LinearLayout>
