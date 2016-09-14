@@ -1,23 +1,35 @@
 package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StatFs;
 import android.text.format.Formatter;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.db.domain.AppInfo;
 import com.rya.ryamobilesafe.engin.AppInfoProvider;
+import com.rya.ryamobilesafe.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +38,7 @@ import java.util.List;
  * Created by Rya32 on 广东石油化工学院.
  * Version 1.0
  */
-public class AppManagerActivity extends Activity {
+public class AppManagerActivity extends Activity implements View.OnClickListener {
     private ArrayList<AppInfo> mAppInfoArrayList;
     private List<AppInfo> mUserApps;
     private List<AppInfo> mSystemApps;
@@ -37,15 +49,21 @@ public class AppManagerActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            AppAdapter appAdapter = new AppAdapter();
+            if (mAppAdapter == null) {
+                mAppAdapter = new AppAdapter();
 
-            if (tv_appmanager_des != null && mUserApps != null) {
-                tv_appmanager_des.setText("用户应用(" + mUserApps.size() + ")");
+                if (tv_appmanager_des != null && mUserApps != null) {
+                    tv_appmanager_des.setText("用户应用(" + mUserApps.size() + ")");
+                }
+                lv_appmanager.setAdapter(mAppAdapter);
+            } else {
+                mAppAdapter.notifyDataSetChanged();
             }
-
-            lv_appmanager.setAdapter(appAdapter);
         }
     };
+    private AppInfo mAppInfo;
+    private PopupWindow mPopupWindow;
+    private AppAdapter mAppAdapter;
 
 
     @Override
@@ -58,9 +76,9 @@ public class AppManagerActivity extends Activity {
         initAppList();
     }
 
-    private void initAppList() {
-        lv_appmanager = (ListView) findViewById(R.id.lv_appmanager);
-        tv_appmanager_des = (TextView) findViewById(R.id.tv_appmanager_des);
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         new Thread(new Runnable() {
             @Override
@@ -79,9 +97,14 @@ public class AppManagerActivity extends Activity {
                     }
                 }
                 mHandler.sendEmptyMessage(0);
-
             }
         }).start();
+
+    }
+
+    private void initAppList() {
+        lv_appmanager = (ListView) findViewById(R.id.lv_appmanager);
+        tv_appmanager_des = (TextView) findViewById(R.id.tv_appmanager_des);
 
         lv_appmanager.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -90,6 +113,8 @@ public class AppManagerActivity extends Activity {
             }
 
             /**
+             * 设置应用描述栏
+             *
              * @param view
              * @param firstVisibleItem      显示在屏幕上第一条
              * @param visibleItemCount
@@ -107,6 +132,54 @@ public class AppManagerActivity extends Activity {
             }
         });
 
+        lv_appmanager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if ((position == 0 || (position) == (mUserApps.size() + 1))) {
+                    return;
+                } else {
+                    if (position < (mUserApps.size() + 1)) {
+                        mAppInfo = mUserApps.get(position - 1);
+                    } else {
+                        mAppInfo = mSystemApps.get(position - mUserApps.size() - 2);
+                    }
+                    showPopupWindow(view);
+                }
+            }
+        });
+    }
+
+    private void showPopupWindow(View view) {
+        View popupView = View.inflate(getApplicationContext(), R.layout.view_appmanager_popup, null);
+
+        TextView tv_appmanager_popup_uninstall = (TextView) popupView.findViewById(R.id.tv_appmanager_popup_uninstall);
+        TextView tv_appmanager_popup_start = (TextView) popupView.findViewById(R.id.tv_appmanager_popup_start);
+        TextView tv_appmanager_popup_share = (TextView) popupView.findViewById(R.id.tv_appmanager_popup_share);
+
+        tv_appmanager_popup_uninstall.setOnClickListener(this);
+        tv_appmanager_popup_start.setOnClickListener(this);
+        tv_appmanager_popup_share.setOnClickListener(this);
+
+        //设置popupwindow动画（透明渐变）、（缩放动画）
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(600);
+        alphaAnimation.setFillAfter(true);
+
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1, 0, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(600);
+        scaleAnimation.setFillAfter(true);
+
+        //动画集合(参数shareinf -- 统一显示规则函数)
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+
+        popupView.startAnimation(animationSet);
+        //设置popupwindow
+        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.showAsDropDown(view, view.getWidth() / 6, -view.getHeight());
 
     }
 
@@ -147,6 +220,45 @@ public class AppManagerActivity extends Activity {
         long blockSizeLong = statFs.getBlockSizeLong();
 
         return blockCountLong * blockSizeLong;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_appmanager_popup_uninstall:
+                if (mAppInfo.getIsSystem()) {
+                    ToastUtil.show(getApplicationContext(), "不可卸载系统软件！");
+                    return;
+                } else {
+                    Intent intent = new Intent("android.intent.action.DELETE");
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.setData(Uri.parse("package:" + mAppInfo.getPackageName()));
+                    startActivity(intent);
+                }
+                break;
+
+            case R.id.tv_appmanager_popup_start:
+                PackageManager packageManager = this.getPackageManager();
+                Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(mAppInfo.getPackageName());
+                if (launchIntentForPackage != null) {
+                    startActivity(launchIntentForPackage);
+                } else {
+                    ToastUtil.show(getApplicationContext(), "不能开启此应用！");
+                }
+                break;
+
+            case R.id.tv_appmanager_popup_share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, "分享应用 >>> " + mAppInfo.getName());
+                intent.setType("txt/plain");
+                startActivity(intent);
+                break;
+        }
+        //点击功能后，取消显示PopupWindow
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+
     }
 
 
