@@ -73,7 +73,8 @@ public class HomeActivity extends Activity {
                         startActivity(appManagerIntent);
                         break;
                     case 3:
-
+                        Intent intent = new Intent(getApplicationContext(), ProcessManagerActivity.class);
+                        startActivity(intent);
                         break;
                     case 4:
 

@@ -45,6 +45,7 @@
         <activity android:name=".activity.AddrQueryActivity" />
         <activity android:name=".activity.BlackNumberActivity" />
         <activity android:name=".activity.AppManagerActivity" />
+        <activity android:name=".activity.ProcessManagerActivity" />
         <activity
             android:name=".activity.ToastLocationActicity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

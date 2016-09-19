@@ -25,9 +25,11 @@ public class AppInfoProvider {
         PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> applicationInfos =
                 packageManager.getInstalledPackages(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+
         for (PackageInfo packageInfo : applicationInfos) {
             AppInfo appInfo = new AppInfo();
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+
             appInfo.setName(applicationInfo.loadLabel(packageManager).toString());
             appInfo.setPackageName(packageInfo.packageName);
             appInfo.setIcon(applicationInfo.loadIcon(packageManager));

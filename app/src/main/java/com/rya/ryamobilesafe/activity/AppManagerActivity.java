@@ -64,8 +64,6 @@ public class AppManagerActivity extends Activity implements View.OnClickListener
     private AppInfo mAppInfo;
     private PopupWindow mPopupWindow;
     private AppAdapter mAppAdapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -285,7 +283,7 @@ public class AppManagerActivity extends Activity implements View.OnClickListener
 
         @Override
         public int getCount() {
-            return mUserApps.size() + mSystemApps.size();
+            return mUserApps.size() + mSystemApps.size() + 2;
         }
 
         @Override

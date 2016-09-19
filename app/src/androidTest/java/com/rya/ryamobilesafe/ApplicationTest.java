@@ -5,6 +5,7 @@ import android.test.ApplicationTestCase;
 
 import com.rya.ryamobilesafe.db.dao.BlackNumberDao;
 import com.rya.ryamobilesafe.db.domain.BlackNumber;
+import com.rya.ryamobilesafe.engin.ProcessProvider;
 
 import java.util.List;
 
@@ -17,9 +18,5 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testBlackNumberDao() {
-        BlackNumberDao blackNumberDao = BlackNumberDao.create(getContext());
-
-        for(int i = 0; i <50; i++)
-            blackNumberDao.insert("12580", "2");
     }
 }
