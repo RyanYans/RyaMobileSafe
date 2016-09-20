@@ -1,7 +1,6 @@
 package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.event.OnScroll;
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.db.domain.ProcessInfo;
 import com.rya.ryamobilesafe.engin.ProcessProvider;
+import com.rya.ryamobilesafe.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,22 +44,25 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (processAdapter == null) {
+            if (mProcessAdapter == null) {
                 if (tv_process_des != null && mUserProcess != null) {
                     tv_process_des.setText("用户应用(" + mUserProcess.size() + ")");
                 }
 
-                processAdapter = new ProcessAdapter();
-                lv_process.setAdapter(processAdapter);
+                mProcessAdapter = new ProcessAdapter();
+                lv_process.setAdapter(mProcessAdapter);
             } else {
-                processAdapter.notifyDataSetChanged();
+                mProcessAdapter.notifyDataSetChanged();
             }
         }
     };
     private List<ProcessInfo> mUserProcess;
     private List<ProcessInfo> mSystemProcess;
-    private ProcessAdapter processAdapter;
+    private ProcessAdapter mProcessAdapter;
     private ProcessInfo mProcessInfo;
+    private int runningProcess;
+    private long totleProcessSpace;
+    private long availProcessSpace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,15 +128,15 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
     }
 
     private void initData() {
-        int runningProcess = ProcessProvider.getRunningProcess(getApplicationContext());
-        long totleProcessSpace = ProcessProvider.getTotleProcessSpace(getApplicationContext());
-        long availProcessSpace = ProcessProvider.getAvailProcessSpace(getApplicationContext());
+        runningProcess = ProcessProvider.getRunningProcess(getApplicationContext());
+        totleProcessSpace = ProcessProvider.getTotleProcessSpace(getApplicationContext());
+        availProcessSpace = ProcessProvider.getAvailProcessSpace(getApplicationContext());
 
         String total = Formatter.formatFileSize(getApplicationContext(), totleProcessSpace);
         String avail = Formatter.formatFileSize(getApplicationContext(), availProcessSpace);
 
-        tv_process_count.setText(tv_process_count.getText().toString() + runningProcess);
-        tv_process_memory.setText(tv_process_memory.getText().toString() + total + "/" + avail);
+        tv_process_count.setText("进程总数：" + runningProcess);
+        tv_process_memory.setText("总共/剩余：" + total + "/" + avail);
 
 
     }
@@ -184,11 +186,57 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
                 reverse();
                 break;
             case R.id.btn_processmanager_clean:
+                cleanProcess();
                 break;
             case R.id.btn_processmanager_setting:
                 break;
 
         }
+    }
+
+    private void cleanProcess() {
+        List<ProcessInfo> killProcessList = new ArrayList<>();
+        long releaseSpace = 0;
+
+        for (ProcessInfo info : mUserProcess) {
+            if (!info.getPackageName().equals(getApplicationContext().getPackageName())) {
+                if (info.ischeck()) {
+                    killProcessList.add(info);
+                }
+            }
+        }
+        for (ProcessInfo info : mSystemProcess) {
+            if (info.ischeck()) {
+                killProcessList.add(info);
+            }
+        }
+
+        for (ProcessInfo info : killProcessList) {
+            releaseSpace += info.getMemorySize();
+            if (mUserProcess.contains(info)) {
+                mUserProcess.remove(info);
+            } else if (mSystemProcess.contains(info)) {
+                mSystemProcess.remove(info);
+            }
+        }
+        //杀死进程，释放内存
+        ProcessProvider.killProcessList(getApplicationContext(), killProcessList);
+
+        int killProcessCount = killProcessList.size();
+        runningProcess -= killProcessCount;
+
+        availProcessSpace += releaseSpace;
+        String release = Formatter.formatFileSize(getApplicationContext(), releaseSpace);
+        String avail = Formatter.formatFileSize(getApplicationContext(), availProcessSpace);
+        String total = Formatter.formatFileSize(getApplicationContext(), totleProcessSpace);
+
+        tv_process_count.setText("进程总数：" + runningProcess);
+        tv_process_memory.setText("总共/剩余：" + total + "/" + avail);
+
+        mProcessAdapter.notifyDataSetChanged();
+
+        ToastUtil.show(getApplicationContext(), String.format("杀死进程总数%d, 释放内存%s", killProcessCount, release));
+
     }
 
     private void reverse() {
@@ -200,8 +248,8 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
         for (ProcessInfo info : mSystemProcess) {
             info.setIscheck(!info.ischeck());
         }
-        if (processAdapter != null) {
-            processAdapter.notifyDataSetChanged();
+        if (mProcessAdapter != null) {
+            mProcessAdapter.notifyDataSetChanged();
         }
     }
 
@@ -214,8 +262,8 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
         for (ProcessInfo info : mSystemProcess) {
             info.setIscheck(true);
         }
-        if (processAdapter != null) {
-            processAdapter.notifyDataSetChanged();
+        if (mProcessAdapter != null) {
+            mProcessAdapter.notifyDataSetChanged();
         }
     }
 

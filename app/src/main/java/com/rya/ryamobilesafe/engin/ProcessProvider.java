@@ -143,4 +143,12 @@ public class ProcessProvider {
         }
         return processInfosList;
     }
+
+    public static void killProcessList(Context context, List<ProcessInfo> killProcessList) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ProcessInfo info : killProcessList) {
+            activityManager.killBackgroundProcesses(info.getPackageName());
+        }
+    }
 }
