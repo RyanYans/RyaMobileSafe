@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,17 +92,42 @@ public class SplashActivity extends Activity {
 
         //splash界面开启渐变动画效果
         startAnimation();
+
         //初始化数据库信息
         initDB();
+
+        //创建快捷方式
+        if (!SPUtil.getBoolean(getApplicationContext(), ConstantValues.ISSHORTCUP, false)) {
+            initShortcup();
+        }
+    }
+
+    private void initShortcup() {
+        Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+
+        //维护快捷方式图标
+        Intent.ShortcutIconResource shortcutIconResource = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.head2);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIconResource);
+        //维护快捷方式名称
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Li管家");
+        //快捷方式开启定向
+        Intent shortcupIntent = new Intent("android.intent.action.HOME");
+        shortcupIntent.addCategory("android.intent.category.DEFAULT");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcupIntent);
+
+        sendBroadcast(intent);
+        SPUtil.putBoolean(getApplicationContext(), ConstantValues.ISSHORTCUP, true);
     }
 
     private void initDB() {
         initAddressDB("address.db");
+
+        initAddressDB("commonnum.db");
     }
 
     private void initAddressDB(String dbName) {
         String path = getFilesDir().toString().trim();
-        File file = new File(path, "address.db");
+        File file = new File(path, dbName);
         //判断文件是否存在，不能用 ！null判断！！
         if (file.exists()) {
             return;
@@ -118,7 +145,7 @@ public class SplashActivity extends Activity {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (inputStream != null && fileOutputStream != null) {
                 try {
                     inputStream.close();
@@ -156,11 +183,11 @@ public class SplashActivity extends Activity {
 
     /**
      * 弹出更新对话框
-     *  builder.setIcon
-     *  builder.setTitle
-     *  builder.setMessage
-     *  builder.setPositiveButton
-     *  builder.setNegativeButton
+     * builder.setIcon
+     * builder.setTitle
+     * builder.setMessage
+     * builder.setPositiveButton
+     * builder.setNegativeButton
      */
     private void alarmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -229,6 +256,7 @@ public class SplashActivity extends Activity {
 
     /**
      * 隐式意图 跳转安装界面
+     *
      * @param file APK文件
      */
     private void InstallAPK(File file) {
@@ -241,6 +269,7 @@ public class SplashActivity extends Activity {
 
     /**
      * StartActivityForResult 返回/回掉 接收函数
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -261,13 +290,12 @@ public class SplashActivity extends Activity {
         finish();
     }
 
-
     /**
-     *  初始化UI方法     Alt +Shift +F
+     * 初始化UI方法     Alt +Shift +F
      */
     private void initUI() {
         rl_root = (RelativeLayout) findViewById(R.id.rl_root);
-        
+
         tv_versionName = (TextView) findViewById(R.id.tv_version_name);
 
     }
@@ -328,7 +356,7 @@ public class SplashActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     mesg.what = JSONEXCEPTION;
-                }finally {
+                } finally {
                     //splash界面等待4s 转向主界面
                     long endTime = System.currentTimeMillis();
                     long spendTime = endTime - startTime;
@@ -347,6 +375,7 @@ public class SplashActivity extends Activity {
 
     /**
      * 获取版本名称：Build.gradle
+     *
      * @return versionName
      */
     public String getVersionName() {
@@ -359,8 +388,10 @@ public class SplashActivity extends Activity {
         }
         return null;
     }
+
     /**
      * 获取版本名称：Build.gradle
+     *
      * @return versionName
      */
     public int getVersionCode() {

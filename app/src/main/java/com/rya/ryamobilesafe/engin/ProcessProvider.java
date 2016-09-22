@@ -118,7 +118,7 @@ public class ProcessProvider {
             try {
                 ApplicationInfo applicationInfo = packageManager.getApplicationInfo(processInfo.getPackageName(),
                         PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-                //设置程序名
+                //设置程序名 -- applicationinfo.loadLabel(pkName);
                 processInfo.setName(applicationInfo.loadLabel(packageManager).toString());
 
                 //设置图标
@@ -150,5 +150,23 @@ public class ProcessProvider {
         for (ProcessInfo info : killProcessList) {
             activityManager.killBackgroundProcesses(info.getPackageName());
         }
+    }
+
+
+    /**
+     * 杀死所有进程
+     *
+     * @param context 上下文环境
+     */
+    public static void killProcessAll(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfo = ProcessManager.getRunningAppProcessInfo(context);
+        for (ActivityManager.RunningAppProcessInfo info : runningAppProcessInfo) {
+            if (info.processName.equals(context.getPackageName())) {
+                continue;
+            }
+            activityManager.killBackgroundProcesses(info.processName);
+        }
+
     }
 }

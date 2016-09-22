@@ -37,13 +37,14 @@
         android:textSize="22sp" />
 
     <TextView
+        android:id="@+id/tv_commomnumber_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/rightbule"
         android:drawableLeft="@android:drawable/star_on"
         android:gravity="center"
         android:padding="10dp"
-        android:text="号码归属地查询"
+        android:text="常用号码查询"
         android:textColor="@color/black"
         android:textSize="22sp" />
 
@@ -58,11 +59,19 @@
         android:textColor="@color/black"
         android:textSize="22sp" />
 
+    <!--不可见，不占位-->
     <ProgressBar
         android:id="@+id/pb_bksms"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffbbbb" />
+        android:background="#ffbbbb"
+        android:visibility="gone" />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ExpandableListView>
 
 </LinearLayout>

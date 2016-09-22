@@ -1,4 +1,4 @@
-package com.rya.ryamobilesafe.engin;
+package com.rya.ryamobilesafe.db.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

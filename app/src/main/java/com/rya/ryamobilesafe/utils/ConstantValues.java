@@ -44,4 +44,6 @@ public class ConstantValues {
      */
     public static final String TOAST_LOCATION_X = "toast_location_x";
     public static final String TOAST_LOCATION_Y = "toast_location_y";
+    public static final String SYSTEMPROCESS_HIDE = "systemprocess_hide";
+    public static final String ISSHORTCUP = "isshortcup";
 }

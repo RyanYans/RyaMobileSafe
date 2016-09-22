@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rya.ryamobilesafe.R;
-import com.rya.ryamobilesafe.engin.AddressDao;
+import com.rya.ryamobilesafe.db.dao.AddressDao;
 
 /**
  * Created by Rya32 on 广东石油化工学院.

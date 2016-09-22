@@ -20,7 +20,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.rya.ryamobilesafe.R;
-import com.rya.ryamobilesafe.engin.AddressDao;
+import com.rya.ryamobilesafe.db.dao.AddressDao;
 import com.rya.ryamobilesafe.utils.ConstantValues;
 import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;

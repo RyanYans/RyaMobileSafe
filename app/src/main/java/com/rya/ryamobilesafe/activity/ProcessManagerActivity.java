@@ -1,9 +1,11 @@
 package com.rya.ryamobilesafe.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.db.domain.ProcessInfo;
 import com.rya.ryamobilesafe.engin.ProcessProvider;
+import com.rya.ryamobilesafe.utils.ConstantValues;
+import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -189,8 +193,21 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
                 cleanProcess();
                 break;
             case R.id.btn_processmanager_setting:
+                setting();
                 break;
+        }
+    }
 
+    private void setting() {
+        Intent intent = new Intent(getApplicationContext(), ProcessSettingActivity.class);
+        startActivityForResult(intent,0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mProcessAdapter != null) {
+            mProcessAdapter.notifyDataSetChanged();
         }
     }
 
@@ -290,7 +307,13 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
 
         @Override
         public int getCount() {
-            return mUserProcess.size() + mSystemProcess.size() + 2;
+            boolean isHideSystem = SPUtil.getBoolean(getApplicationContext(), ConstantValues.SYSTEMPROCESS_HIDE, false);
+            if (isHideSystem) {
+                return mUserProcess.size() + 1;
+            } else {
+                return mUserProcess.size() + mSystemProcess.size() + 2;
+            }
+
         }
 
         @Override

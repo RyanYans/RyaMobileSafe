@@ -3,14 +3,8 @@ package com.rya.ryamobilesafe.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,6 +21,7 @@ public class AdvToolsActivity extends Activity {
 
     private TextView tv_advtools_addrquery;
     private TextView tv_backup_sms;
+    private TextView tv_commomnumber_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +30,24 @@ public class AdvToolsActivity extends Activity {
 
         initUI();
 
-        initListener();
+        initAddrQuery();
+
+        initBackUpSms();
+
+        initCommomNumberSearch();
     }
 
-    private void initUI() {
-        tv_advtools_addrquery = (TextView) findViewById(R.id.tv_advtools_addrquery);
-        tv_backup_sms = (TextView) findViewById(R.id.tv_backup_sms);
+    private void initCommomNumberSearch() {
+        tv_commomnumber_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CommomNumberSearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    private void initListener() {
+    private void initAddrQuery() {
         tv_advtools_addrquery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +55,15 @@ public class AdvToolsActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initUI() {
+        tv_advtools_addrquery = (TextView) findViewById(R.id.tv_advtools_addrquery);
+        tv_backup_sms = (TextView) findViewById(R.id.tv_backup_sms);
+        tv_commomnumber_search = (TextView) findViewById(R.id.tv_commomnumber_search);
+    }
+
+    private void initBackUpSms() {
 
         tv_backup_sms.setOnClickListener(new View.OnClickListener() {
             @Override
