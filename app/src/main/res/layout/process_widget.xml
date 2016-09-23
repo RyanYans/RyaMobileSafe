@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/widget_bg_portrait"
+    android:id="@+id/ll_widget_root"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -17,10 +18,11 @@
         android:paddingTop="3.0dip">
 
         <TextView
-            android:id="@+id/process_count"
+            android:id="@+id/tv_widgetprocess_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip" />
+            android:layout_marginLeft="10.0dip"
+            android:textColor="#066" />
 
         <ImageView
             android:layout_width="fill_parent"
@@ -30,10 +32,11 @@
             android:background="@drawable/widget_bg_portrait_child_divider" />
 
         <TextView
-            android:id="@+id/process_memory"
+            android:id="@+id/tv_widgetprocess_memory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip" />
+            android:layout_marginLeft="10.0dip"
+            android:textColor="#066" />
     </LinearLayout>
 
     <LinearLayout

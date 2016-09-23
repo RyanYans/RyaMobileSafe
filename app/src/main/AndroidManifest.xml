@@ -59,6 +59,7 @@
         <activity android:name=".activity.ProcessManagerActivity" />
         <activity android:name=".activity.ProcessSettingActivity" />
         <activity android:name=".activity.CommomNumberSearchActivity" />
+        <activity android:name=".activity.AppLockActivity" />
         <activity
             android:name=".activity.ToastLocationActicity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -90,23 +91,25 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.MyAppWidgetProvider" >
+        <!-- 窗口小部件 -->
+        <receiver android:name=".receiver.MyAppWidgetReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/process_widget_provider" />
         </receiver>
+        <receiver android:name=".receiver.WidgetProcessReceiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.WIDGET_PROCESS_CLEAR" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".service.LocationService" />
         <service android:name=".service.AddressService" />
         <service android:name=".service.RocketService" />
         <service android:name=".service.BlackNumberService" />
-        <service android:name=".service.ProcessCleanService" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <service android:name=".service.AppWidgetProcessService" />
 
     </application>
 

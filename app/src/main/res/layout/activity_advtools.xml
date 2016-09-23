@@ -49,13 +49,14 @@
         android:textSize="22sp" />
 
     <TextView
+        android:id="@+id/tv_applock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/rightbule"
         android:drawableLeft="@android:drawable/star_on"
         android:gravity="center"
         android:padding="10dp"
-        android:text="号码归属地查询"
+        android:text="程序锁"
         android:textColor="@color/black"
         android:textSize="22sp" />
 

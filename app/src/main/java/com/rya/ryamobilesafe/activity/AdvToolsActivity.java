@@ -22,6 +22,7 @@ public class AdvToolsActivity extends Activity {
     private TextView tv_advtools_addrquery;
     private TextView tv_backup_sms;
     private TextView tv_commomnumber_search;
+    private TextView tv_applock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,18 @@ public class AdvToolsActivity extends Activity {
         initBackUpSms();
 
         initCommomNumberSearch();
+
+        initAppLock();
+    }
+
+    private void initAppLock() {
+        tv_applock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AppLockActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initCommomNumberSearch() {
@@ -61,6 +74,7 @@ public class AdvToolsActivity extends Activity {
         tv_advtools_addrquery = (TextView) findViewById(R.id.tv_advtools_addrquery);
         tv_backup_sms = (TextView) findViewById(R.id.tv_backup_sms);
         tv_commomnumber_search = (TextView) findViewById(R.id.tv_commomnumber_search);
+        tv_applock = (TextView) findViewById(R.id.tv_applock);
     }
 
     private void initBackUpSms() {

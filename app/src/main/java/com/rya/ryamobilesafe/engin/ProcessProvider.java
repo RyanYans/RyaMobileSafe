@@ -28,6 +28,10 @@ import java.util.List;
  * Version 1.0
  */
 public class ProcessProvider {
+    /**
+     * @param context
+     * @return  返回当前运行进程数
+     */
     public static int getRunningProcess(Context context) {
 //        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<AndroidAppProcess> runningAppProcesses = ProcessManager.getRunningAppProcesses();
@@ -35,6 +39,10 @@ public class ProcessProvider {
         return runningAppProcesses.size();
     }
 
+    /**
+     * @param context
+     * @return  返回手机内存总大小
+     */
     public static long getTotleProcessSpace(Context context) {
         /*ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
@@ -77,6 +85,10 @@ public class ProcessProvider {
         return totalSpace * 1024;
     }
 
+    /**
+     * @param context
+     * @return  返回手机当前可使用内存大小
+     */
     public static long getAvailProcessSpace(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
@@ -144,6 +156,10 @@ public class ProcessProvider {
         return processInfosList;
     }
 
+    /**
+     * @param context
+     * @param killProcessList   需要杀死的进程集合List
+     */
     public static void killProcessList(Context context, List<ProcessInfo> killProcessList) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -155,7 +171,6 @@ public class ProcessProvider {
 
     /**
      * 杀死所有进程
-     *
      * @param context 上下文环境
      */
     public static void killProcessAll(Context context) {
