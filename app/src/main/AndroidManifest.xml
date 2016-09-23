@@ -90,12 +90,23 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".receiver.MyAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/process_widget_provider" />
+        </receiver>
 
         <service android:name=".service.LocationService" />
         <service android:name=".service.AddressService" />
         <service android:name=".service.RocketService" />
         <service android:name=".service.BlackNumberService" />
-        <service android:name=".service.ProcessCleanService" />
+        <service android:name=".service.ProcessCleanService" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

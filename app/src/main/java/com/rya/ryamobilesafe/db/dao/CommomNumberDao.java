@@ -49,15 +49,15 @@ public class CommomNumberDao {
     }
 
     public class numberGroup {
-        String name;
-        String idx;
-        List<child> childLists;
+        public String name;
+        public String idx;
+        public List<child> childLists;
     }
 
     public class child {
-        String _id;
-        String number;
-        String name;
+        public String _id;
+        public String number;
+        public String name;
     }
 
 

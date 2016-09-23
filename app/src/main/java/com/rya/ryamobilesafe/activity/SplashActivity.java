@@ -4,17 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,7 +32,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -106,7 +102,7 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
 
         //维护快捷方式图标
-        Intent.ShortcutIconResource shortcutIconResource = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.head2);
+        Intent.ShortcutIconResource shortcutIconResource = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_laun);
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIconResource);
         //维护快捷方式名称
         intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Li管家");
@@ -191,7 +187,7 @@ public class SplashActivity extends Activity {
      */
     private void alarmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.head2);
+        builder.setIcon(R.drawable.ic_laun);
         builder.setTitle("有版本更新！");
         builder.setMessage(mVersionName);
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
