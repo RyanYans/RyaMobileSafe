@@ -59,6 +59,7 @@
         <activity android:name=".activity.ProcessManagerActivity" />
         <activity android:name=".activity.ProcessSettingActivity" />
         <activity android:name=".activity.CommomNumberSearchActivity" />
+        <activity android:name=".activity.EnterPsdActivity" />
         <activity android:name=".activity.AppLockActivity" />
         <activity
             android:name=".activity.ToastLocationActicity"
@@ -110,6 +111,7 @@
         <service android:name=".service.RocketService" />
         <service android:name=".service.BlackNumberService" />
         <service android:name=".service.AppWidgetProcessService" />
+        <service android:name=".service.AppLockService" />
 
     </application>
 

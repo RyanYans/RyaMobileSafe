@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.rya.ryamobilesafe.db.AppLockOpenHelper;
 import com.rya.ryamobilesafe.db.BlackNumberOpenHelper;
 import com.rya.ryamobilesafe.db.domain.BlackNumber;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,13 @@ import java.util.List;
  */
 public class AppLockDao {
 
+    private final Context context;
     private AppLockOpenHelper mAppLockOpenHelper;
 
     // 设计为单例模式
     // 1.私有化构造方法
     private AppLockDao(Context context) {
+        this.context = context;
         mAppLockOpenHelper = new AppLockOpenHelper(context);
     }
 
@@ -37,23 +41,31 @@ public class AppLockDao {
         return appLockDao;
     }
 
-    //增（插入）
+    //增（插入）, 每次插入都需要内容观察者去Notify数据改变。
     public void insert(String pkgName) {
         SQLiteDatabase db = mAppLockOpenHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("pkgname", pkgName);
         db.insert("applock", null, contentValues);
         db.close();
+
+        context.getContentResolver().notifyChange(Uri.parse("content:// applock/datachange"), null);
     }
 
+    // 每次插入都需要内容观察者去Notify数据改变。
     public void delete(String pkgName) {
         SQLiteDatabase db = mAppLockOpenHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("pkgname", pkgName);
         db.delete("applock", "pkgname = ?", new String[]{pkgName});
         db.close();
+
+        context.getContentResolver().notifyChange(Uri.parse("content:// applock/datachange"), null);
     }
 
+    /**
+     * @return 返回数据库中已锁屏应用的包名
+     */
     public List<String> searchAll() {
         SQLiteDatabase db = mAppLockOpenHelper.getWritableDatabase();
         Cursor cursor = db.query("applock", new String[]{"pkgname"}, null, null, null, null, null);

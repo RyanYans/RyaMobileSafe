@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,19 +44,22 @@ public class AppLockActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            //更新界面
-            tv_applock_unlock_count.setText("应用数：" + mUnlockApp.size());
-            tv_applock_lock_count.setText("应用数：" + mLockApp.size());
 
-            AppLockAdapter lockAdapter = new AppLockAdapter(true);
-            lv_applock_unlock.setAdapter(lockAdapter);
 
-            AppLockAdapter unlockAdapter = new AppLockAdapter(false);
-            lv_applock_unlock.setAdapter(unlockAdapter);
+            /* 设置已加锁listview */
+            mLockAdapter = new AppLockAdapter(true);
+            lv_applock_lock.setAdapter(mLockAdapter);
+
+            /* 设置未加锁listview */
+            mUnlockAdapter = new AppLockAdapter(false);
+            lv_applock_unlock.setAdapter(mUnlockAdapter);
         }
     };
     private Button btn_applock_unlock;
     private Button btn_applock_lock;
+    private AppLockAdapter mLockAdapter;
+    private AppLockAdapter mUnlockAdapter;
+    private TranslateAnimation mItemAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,14 @@ public class AppLockActivity extends Activity {
         initUI();
 
         initData();
+
+        initAnimation();
+    }
+
+    private void initAnimation() {
+        mItemAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
+        mItemAnimation.setDuration(500);
     }
 
     private void initData() {
@@ -95,6 +108,7 @@ public class AppLockActivity extends Activity {
         lv_applock_unlock = (ListView) findViewById(R.id.lv_applock_unlock);
         lv_applock_lock = (ListView) findViewById(R.id.lv_applock_lock);
 
+        /*设置已加锁按钮监听*/
         btn_applock_lock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,9 +117,12 @@ public class AppLockActivity extends Activity {
 
                 ll_applock_unlock.setVisibility(View.GONE);
                 ll_applock_lock.setVisibility(View.VISIBLE);
+
+                mLockAdapter.notifyDataSetChanged();
             }
         });
 
+        /*设置未加锁按钮监听*/
         btn_applock_unlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +131,8 @@ public class AppLockActivity extends Activity {
 
                 ll_applock_lock.setVisibility(View.GONE);
                 ll_applock_unlock.setVisibility(View.VISIBLE);
+
+                mUnlockAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -127,9 +146,12 @@ public class AppLockActivity extends Activity {
 
         @Override
         public int getCount() {
+            //更新界面
             if (isLock) {
+                tv_applock_lock_count.setText("应用数：" + mLockApp.size());
                 return mLockApp.size();
             } else {
+                tv_applock_unlock_count.setText("应用数：" + mUnlockApp.size());
                 return mUnlockApp.size();
             }
         }
@@ -166,13 +188,61 @@ public class AppLockActivity extends Activity {
 
                 view.setTag(viewHolder);
             }
-            viewHolder.iv_item_applock_icon.setImageDrawable(getItem(position).getIcon());
-            viewHolder.tv_item_applock_name.setText(getItem(position).getName());
+            final AppInfo info = getItem(position);
+            viewHolder.iv_item_applock_icon.setImageDrawable(info.getIcon());
+            viewHolder.tv_item_applock_name.setText(info.getName());
             if (isLock) {
                 viewHolder.iv_item_applock_islock.setImageResource(R.drawable.lock);
             } else {
                 viewHolder.iv_item_applock_islock.setImageResource(R.drawable.unlock);
             }
+
+            final View finalView = view;
+            viewHolder.iv_item_applock_islock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    finalView.startAnimation(mItemAnimation);
+
+                    mItemAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        // 当动画结束后执行逻辑
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            if (isLock) {
+                                //lock集合中移除条目信息
+                                mLockApp.remove(info);
+                                //unlock集合中添加条目信息
+                                mUnlockApp.add(info);
+                                //数据库已加锁信息移除
+                                mAppLockDao.delete(info.getPackageName());
+                                // 更新适配器
+                                mLockAdapter.notifyDataSetChanged();
+                            } else {
+                                //lock集合中移除条目信息
+                                mUnlockApp.remove(info);
+                                //unlock集合中添加条目信息
+                                mLockApp.add(info);
+                                //数据库已加锁信息移除
+                                mAppLockDao.insert(info.getPackageName());
+                                // 更新适配器
+                                mUnlockAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
+                }
+            });
+
             return view;
         }
 
@@ -183,4 +253,5 @@ public class AppLockActivity extends Activity {
         }
 
     }
+
 }

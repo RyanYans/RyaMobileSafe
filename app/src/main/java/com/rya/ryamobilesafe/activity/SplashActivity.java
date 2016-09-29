@@ -98,6 +98,9 @@ public class SplashActivity extends Activity {
         }
     }
 
+    /**
+     * 初始化快捷方式，设置图标、名称、点击跳转
+     */
     private void initShortcup() {
         Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
 
@@ -106,9 +109,11 @@ public class SplashActivity extends Activity {
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIconResource);
         //维护快捷方式名称
         intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Li管家");
-        //快捷方式开启定向
+
+        //快捷方式点击跳转
         Intent shortcupIntent = new Intent("android.intent.action.HOME");
         shortcupIntent.addCategory("android.intent.category.DEFAULT");
+
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcupIntent);
 
         sendBroadcast(intent);

@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.service.AddressService;
+import com.rya.ryamobilesafe.service.AppLockService;
 import com.rya.ryamobilesafe.service.BlackNumberService;
 import com.rya.ryamobilesafe.service.RocketService;
 import com.rya.ryamobilesafe.utils.ConstantValues;
@@ -45,6 +46,31 @@ public class SettingActivity extends Activity {
         initToastLocation();
         initRocket();
         initBlackNumber();
+        initAppLock();
+    }
+
+    private void initAppLock() {
+        final SettingItemView siv_blacknumber = (SettingItemView) findViewById(R.id.siv_lockapp);
+        //使用ServiceUtil检查Service当前是否处于开启状态
+        boolean checkService = ServiceUtil.checkService(getApplicationContext(),
+                "com.rya.ryamobilesafe.service.AppLockService");
+        siv_blacknumber.setCheck(checkService);
+
+        siv_blacknumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击之前已经关闭服务，即当前要开启服务
+                if (!siv_blacknumber.isCheck()) {
+                    siv_blacknumber.setCheck(true);
+                    Intent intent = new Intent(getApplicationContext(), AppLockService.class);
+                    startService(intent);
+                } else {    //点击之前已经开启服务，即当前要关闭服务
+                    siv_blacknumber.setCheck(false);
+                    Intent intent = new Intent(getApplicationContext(), AppLockService.class);
+                    stopService(intent);
+                }
+            }
+        });
     }
 
     private void initBlackNumber() {
