@@ -121,15 +121,20 @@ public class SplashActivity extends Activity {
     }
 
     private void initDB() {
+        // 初始化本地号码归属地数据库
         initAddressDB("address.db");
 
+        // 初始化本地常用号码数据库
         initAddressDB("commonnum.db");
+
+        // 初始化本地病毒数据库
+        initAddressDB("antivirus.db");
     }
 
     private void initAddressDB(String dbName) {
         String path = getFilesDir().toString().trim();
         File file = new File(path, dbName);
-        //判断文件是否存在，不能用 ！null判断！！
+        //判断文件是否存在，此处不能用 ！= null判断
         if (file.exists()) {
             return;
         }

@@ -59,8 +59,12 @@
         <activity android:name=".activity.ProcessManagerActivity" />
         <activity android:name=".activity.ProcessSettingActivity" />
         <activity android:name=".activity.CommomNumberSearchActivity" />
-        <activity android:name=".activity.EnterPsdActivity" />
         <activity android:name=".activity.AppLockActivity" />
+        <activity android:name=".activity.EnterPsdActivity"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            />
+        <activity android:name=".activity.AntiVirusActivity" />
         <activity
             android:name=".activity.ToastLocationActicity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

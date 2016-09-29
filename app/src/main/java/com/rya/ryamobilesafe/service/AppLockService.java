@@ -28,6 +28,8 @@ public class AppLockService extends Service {
     private boolean iswatch;
     private AppLockDao mdao;
     private List<String> mPkgList;
+    private InnerReceiver innerReceiver;
+    private MyContentObserver myContentObserver;
 
     @Override
     public void onCreate() {
@@ -41,11 +43,11 @@ public class AppLockService extends Service {
         // 模拟。
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("Android.action...SKIP");
-        InnerReceiver innerReceiver = new InnerReceiver();
+        innerReceiver = new InnerReceiver();
         registerReceiver(innerReceiver, intentFilter);
 
         //获取内容接收者，调用注册内容观察者, 一旦接受到数据库内容更新请求， 重新获取mPkgList集合
-        MyContentObserver myContentObserver = new MyContentObserver(new Handler());
+        myContentObserver = new MyContentObserver(new Handler());
         this.getContentResolver().registerContentObserver(Uri.parse("content://applock/datachange"), true, myContentObserver);
     }
 
@@ -117,6 +119,14 @@ public class AppLockService extends Service {
     public void onDestroy() {
         super.onDestroy();
         iswatch = false;
+        //注销广播接收者
+        if (innerReceiver != null) {
+            unregisterReceiver(innerReceiver);
+        }
+        //注销内容观察者
+        if (myContentObserver != null) {
+            this.getContentResolver().unregisterContentObserver(myContentObserver);
+        }
     }
 
     private class InnerReceiver extends BroadcastReceiver{

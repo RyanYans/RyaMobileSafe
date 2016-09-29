@@ -73,14 +73,15 @@ public class HomeActivity extends Activity {
                         startActivity(appManagerIntent);
                         break;
                     case 3:
-                        Intent intent = new Intent(getApplicationContext(), ProcessManagerActivity.class);
-                        startActivity(intent);
+                        Intent processManagerIntent = new Intent(getApplicationContext(), ProcessManagerActivity.class);
+                        startActivity(processManagerIntent);
                         break;
                     case 4:
 
                         break;
                     case 5:
-
+                        Intent intent = new Intent(getApplicationContext(), AntiVirusActivity.class);
+                        startActivity(intent);
                         break;
                     case 6:
 

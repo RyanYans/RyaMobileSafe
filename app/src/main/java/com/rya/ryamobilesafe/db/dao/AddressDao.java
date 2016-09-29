@@ -2,6 +2,7 @@ package com.rya.ryamobilesafe.db.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Rya32 on 广东石油化工学院.
@@ -12,6 +13,7 @@ public class AddressDao {
     private static String mAddress = null;
 
     public static String checkAddress(String phone) {
+
         switch (phone.length()) {
             case 3:
                 mAddress = "报警电话";

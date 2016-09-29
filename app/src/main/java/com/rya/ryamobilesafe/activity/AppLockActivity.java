@@ -68,9 +68,9 @@ public class AppLockActivity extends Activity {
 
         initUI();
 
-        initData();
-
         initAnimation();
+
+        initData();
     }
 
     private void initAnimation() {
