@@ -25,6 +25,8 @@ import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.StreamUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;
 
+import net.youmi.android.AdManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,6 +82,8 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        AdManager.getInstance(this).init("a3facdc41cba83f8", "56c2bfbfdc0238cc", true, true);
+
         //初始化UI
         initUI();
 
@@ -92,9 +96,9 @@ public class SplashActivity extends Activity {
         //初始化数据库信息
         initDB();
 
-        //创建快捷方式
+        //创建快捷方式    --> 部分系统无桌面定制，需要判断。
         if (!SPUtil.getBoolean(getApplicationContext(), ConstantValues.ISSHORTCUP, false)) {
-            initShortcup();
+            //initShortcup();
         }
     }
 
@@ -105,7 +109,7 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
 
         //维护快捷方式图标
-        Intent.ShortcutIconResource shortcutIconResource = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_laun);
+        Intent.ShortcutIconResource shortcutIconResource = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.icon);
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIconResource);
         //维护快捷方式名称
         intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Li管家");

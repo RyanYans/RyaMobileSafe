@@ -28,6 +28,13 @@
         android:singleLine="true"
         android:text="我们不可能最求结果,但我们要做好过程。。。我们不可能最求结果,但我们要做好过程。。。" />
 
+    <LinearLayout
+        android:id="@+id/ll_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"></LinearLayout>
+
     <GridView
         android:id="@+id/gv_home"
         android:layout_width="match_parent"

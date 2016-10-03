@@ -3,6 +3,8 @@ package com.rya.ryamobilesafe.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +13,7 @@ import android.os.Message;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -177,8 +180,25 @@ public class AppManagerActivity extends Activity implements View.OnClickListener
         //设置popupwindow
         mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        mPopupWindow.showAsDropDown(view, view.getWidth() / 6, -view.getHeight());
+        //方案一
+        // popwindow中嵌套的View获取了焦点，设置view的setOnKeyListener方法
+        /*view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((keyCode == KeyEvent.KEYCODE_BACK)
+                        && (mPopupWindow != null && mPopupWindow.isShowing())) {
+                    mPopupWindow.dismiss();// 点击返回键的popWin退出就行
+                    return true;
+                }
+                return false;
+            }
+        });*/
+        //方案二
 
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        mPopupWindow.setOutsideTouchable(true);
+
+        mPopupWindow.showAsDropDown(view, view.getWidth() / 6, -view.getHeight());
     }
 
     private void initTitle() {

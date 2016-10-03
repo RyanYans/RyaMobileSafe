@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -99,10 +98,11 @@ public class AntiVirusActivity extends Activity {
 
 
     private void initScanVirus() {
+        //获取数据库中病毒的签名md5
+
         List<String> virusList = AntiVirusDao.getVirusList();
 
-
-
+        // 获取已安装应用的 签名+ 未删除的文件
         PackageManager packageManager = getPackageManager();
         List<PackageInfo> pkgSignature = packageManager
                 .getInstalledPackages(PackageManager.GET_SIGNATURES + PackageManager.GET_UNINSTALLED_PACKAGES);

@@ -46,7 +46,7 @@
                 android:layout_centerVertical="true"
                 android:padding="2dp"
                 android:id="@+id/pb_antivirus"
-                android:progressDrawable="@drawable/pb_antivirus_bg"
+                android:progressDrawable="@drawable/pb_bg"
                 android:max="3"
                 android:progress="1"
                 android:layout_width="match_parent"
@@ -66,12 +66,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rya.com.sjgjiojl.kdsjflkjg.glkj"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rya.com.pook.dkjfk.lkfdjfj"
                 />
         </LinearLayout>
     </ScrollView>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -63,13 +64,14 @@ public class BlackNumberActivity extends Activity {
 
         initDate();
 
+
+
         btn_add_blacknumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initAddToast();
             }
         });
-
 
     }
 

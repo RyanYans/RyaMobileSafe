@@ -9,21 +9,23 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1"
+        versionName "2.0.1"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/app_process_library.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile files('libs/YoumiSdk_v6.3.0_2016-09-08.jar')
 }

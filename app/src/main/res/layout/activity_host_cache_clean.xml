@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--宿主控件-->
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--选项卡指向页面布局-->
+    <FrameLayout
+        android:id="@android:id/tabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"></FrameLayout>
+
+    <!--选项卡布局-->
+    <TabWidget
+        android:id="@android:id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:layout_gravity="bottom"
+        android:background="#ccc"></TabWidget>
+
+</TabHost>

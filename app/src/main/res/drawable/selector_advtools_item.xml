@@ -4,4 +4,5 @@
     <item android:state_pressed="true"
         android:drawable="@color/rightbule_press" /> <!-- pressed -->
     <item android:drawable="@color/rightbule" /> <!-- default -->
+
 </selector>

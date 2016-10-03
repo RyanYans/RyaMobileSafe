@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/tv_setting_title"
@@ -16,12 +16,13 @@
             android:textSize="18sp" />
 
         <TextView
+            android:layout_marginTop="5dp"
             android:id="@+id/tv_setting_des"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_setting_title"
             android:text="XXX"
-            android:textColor="#222222"
+            android:textColor="#444"
             android:textSize="16sp" />
 
         <CheckBox

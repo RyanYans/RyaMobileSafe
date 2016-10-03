@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="pink">#bb9999</color>
-    <color name="rightbule">#77ffff</color>
+    <color name="rightbule">#44ccff</color>
     <color name="rightbule_press">#99ffff</color>
     <color name="black">#111111</color>
+    <color name="gray">#ccc</color>
+    <color name="select">#44ccff</color>
 </resources>

@@ -1,7 +1,7 @@
 package com.rya.ryamobilesafe.activity;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +13,9 @@ import com.rya.ryamobilesafe.R;
  * Version 1.0
  */
 public class Setup1Activity extends BaseSetupActivity {
+
+    private PackageManager mPm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class Setup1Activity extends BaseSetupActivity {
                 nextActivity();
             }
         });
+
     }
 
     protected void nextActivity() {

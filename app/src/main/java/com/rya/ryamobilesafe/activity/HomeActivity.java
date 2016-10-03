@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,12 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rya.ryamobilesafe.R;
 import com.rya.ryamobilesafe.utils.ConstantValues;
 import com.rya.ryamobilesafe.utils.SPUtil;
 import com.rya.ryamobilesafe.utils.ToastUtil;
+
+import net.youmi.android.normal.banner.BannerManager;
+import net.youmi.android.normal.banner.BannerViewListener;
 
 /**
  * Created by Rya32 on 广东石油化工学院.
@@ -33,6 +38,31 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // 获取广告条
+        View bannerView = BannerManager.getInstance(this)
+                .getBannerView(new BannerViewListener() {
+                    @Override
+                    public void onRequestSuccess() {
+                        Log.i("ADV >>> ", "Success");
+                    }
+
+                    @Override
+                    public void onSwitchBanner() {
+                        Log.i("ADV >>> ", "hBanner");
+                    }
+
+                    @Override
+                    public void onRequestFailed() {
+                        Log.i("ADV >>> ", "Failed");
+                    }
+                });
+
+        // 获取要嵌入广告条的布局
+        LinearLayout bannerLayout = (LinearLayout) findViewById(R.id.ll_banner);
+
+        // 将广告条加入到布局中
+        bannerLayout.addView(bannerView);
 
         initUI();
 
@@ -77,14 +107,16 @@ public class HomeActivity extends Activity {
                         startActivity(processManagerIntent);
                         break;
                     case 4:
-
+                        Intent trafficCountIntent = new Intent(getApplicationContext(), TrafficCountAcitvity.class);
+                        startActivity(trafficCountIntent);
                         break;
                     case 5:
-                        Intent intent = new Intent(getApplicationContext(), AntiVirusActivity.class);
-                        startActivity(intent);
+                        Intent antiVirusIntent = new Intent(getApplicationContext(), AntiVirusActivity.class);
+                        startActivity(antiVirusIntent);
                         break;
                     case 6:
-
+                        Intent cacheCleanIntent = new Intent(getApplicationContext(), HostCleanActivity.class);
+                        startActivity(cacheCleanIntent);
                         break;
                     case 7:
                         Intent intent_advtools = new Intent(getApplicationContext(), AdvToolsActivity.class);

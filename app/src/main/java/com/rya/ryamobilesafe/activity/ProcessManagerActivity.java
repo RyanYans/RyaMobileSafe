@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -346,7 +345,6 @@ public class ProcessManagerActivity extends Activity implements View.OnClickList
                 viewHolder.tv_process_item_title = (TextView) view.findViewById(R.id.tv_process_item_title);
                 viewHolder.tv_process_item_des = (TextView) view.findViewById(R.id.tv_process_item_des);
                 viewHolder.cb_process_item = (CheckBox) view.findViewById(R.id.cb_process_item);
-
 
                 view.setTag(viewHolder);
                 if (convertView != null) {

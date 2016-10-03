@@ -52,7 +52,6 @@ public class AppLockService extends Service {
     }
 
     private void startWarchDog() {
-        Log.i("AppLock", "watchDog Going..");
         mdao = AppLockDao.create(getApplicationContext());
                 new Thread(new Runnable() {
                     @Override
@@ -60,7 +59,6 @@ public class AppLockService extends Service {
                         mPkgList = mdao.searchAll();
                 Log.i("AppLock", mPkgList.toString());
                 while (iswatch) {
-                    Log.i("AppLock", "watchDog Going..");
                     /*ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
                     List<ActivityManager.RunningAppProcessInfo> runningTasks = activityManager.getRunningAppProcesses();
                     ActivityManager.RunningAppProcessInfo runningAppProcessInfo = runningTasks.get(0);
@@ -71,7 +69,6 @@ public class AppLockService extends Service {
                         // 判断应用包名是否已通过密码验证
                         // if(! mRelievePkg.equals(packageName))
                         // ...
-                        Log.i("AppLock", "匹配成功！");
                         Intent intent = new Intent(getApplicationContext(), EnterPsdActivity.class);
                         intent.putExtra("pkgName", packageName);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
