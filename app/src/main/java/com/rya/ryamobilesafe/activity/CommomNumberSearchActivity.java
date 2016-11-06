@@ -109,12 +109,13 @@ public class CommomNumberSearchActivity extends Activity {
             TextView textView;
             if (convertView != null) {
                 textView = (TextView) convertView;
-                textView.setText("          " + getGroup(groupPosition).name);
+                textView.setText(getGroup(groupPosition).name);
             } else {
                 textView = new TextView(CommomNumberSearchActivity.this);
-                textView.setText("          " + getGroup(groupPosition).name);
+                textView.setPadding(100,15,15,15);
+                textView.setText(getGroup(groupPosition).name);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22);
-                textView.setTextColor(Color.BLUE);
+                textView.setTextColor(getResources().getColor(R.color.colorAccent));
             }
 
             return textView;

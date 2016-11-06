@@ -7,7 +7,7 @@
         style="@style/TitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#d66"
+        android:background="@color/AppStyleColor"
         android:text="登陆"
         android:textSize="17sp" />
 

@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TitleStyle"
-        android:background="#f99"
         android:text="添加黑名单号码"
         />
     <EditText

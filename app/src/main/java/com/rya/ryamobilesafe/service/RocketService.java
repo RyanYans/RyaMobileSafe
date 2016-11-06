@@ -57,7 +57,6 @@ public class RocketService extends Service {
         screenHeight = mDefaultDisplay.getHeight();
 
         showToast();
-
     }
 
     private void showToast() {

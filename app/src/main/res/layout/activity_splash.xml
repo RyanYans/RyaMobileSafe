@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="Hello World!"
-        android:textColor="#fa3666"
+        android:textColor="#ffffff"
         android:textSize="18sp" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_version_name"

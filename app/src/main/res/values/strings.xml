@@ -2,4 +2,5 @@
     <string name="app_name">Li管家</string>
     <string name="sample_device_admin" >超级管理员</string>
     <string name="sample_device_admin_description">远程锁屏、清除数据..</string>
+    <string name="iv_smog_top">iv_smog_top</string>
 </resources>

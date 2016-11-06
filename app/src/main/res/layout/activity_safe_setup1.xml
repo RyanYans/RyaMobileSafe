@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TitleStyle"
-        android:background="#55d"
         android:textSize="22sp"
         android:text="安全防盗 - 设置导航"/>
 

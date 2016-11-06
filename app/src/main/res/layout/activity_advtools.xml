@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/advtools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,7 +8,6 @@
         style="@style/TitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#90f"
         android:text="高级工具" />
 
     <TextView
@@ -28,7 +26,7 @@
         android:id="@+id/tv_backup_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/rightbule"
+        android:background="@drawable/selector_advtools_item"
         android:drawableLeft="@android:drawable/star_on"
         android:gravity="center"
         android:padding="10dp"
@@ -40,7 +38,7 @@
         android:id="@+id/tv_commomnumber_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/rightbule"
+        android:background="@drawable/selector_advtools_item"
         android:drawableLeft="@android:drawable/star_on"
         android:gravity="center"
         android:padding="10dp"
@@ -52,7 +50,7 @@
         android:id="@+id/tv_applock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/rightbule"
+        android:background="@drawable/selector_advtools_item"
         android:drawableLeft="@android:drawable/star_on"
         android:gravity="center"
         android:padding="10dp"

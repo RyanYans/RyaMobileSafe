@@ -139,7 +139,7 @@ public class AddressService extends Service {
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
         //指定属性 --位置
-        params.gravity = Gravity.TOP + Gravity.LEFT;
+        params.gravity = Gravity.TOP + Gravity.START;
 
         //自定义View
         mView = View.inflate(getApplicationContext(), R.layout.view_address_toast, null);

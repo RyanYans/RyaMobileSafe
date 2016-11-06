@@ -28,4 +28,5 @@ dependencies {
     compile files('libs/app_process_library.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile files('libs/YoumiSdk_v6.3.0_2016-09-08.jar')
+    compile 'com.jaeger.statusbaruitl:library:1.3.0'
 }

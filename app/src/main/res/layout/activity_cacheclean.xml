@@ -12,7 +12,6 @@
             style="@style/TitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#099"
             android:gravity="left"
             android:text="缓存清理" />
 

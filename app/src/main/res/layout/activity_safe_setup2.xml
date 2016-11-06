@@ -8,7 +8,6 @@
         style="@style/TitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#55d"
         android:text="手机卡绑定"
         android:textSize="22sp" />
 

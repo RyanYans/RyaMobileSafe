@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
     <item android:state_pressed="true"
-        android:drawable="@color/rightbule_press" /> <!-- pressed -->
+        android:drawable="@color/rightbulePress" /> <!-- pressed -->
     <item android:drawable="@color/rightbule" /> <!-- default -->
 
 </selector>

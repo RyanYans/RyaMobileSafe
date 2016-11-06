@@ -82,7 +82,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        AdManager.getInstance(this).init("a3facdc41cba83f8", "56c2bfbfdc0238cc", true, true);
+        AdManager.getInstance(this).init("a3facdc41cba83f8", "56c2bfbfdc0238cc", true, false);
 
         //初始化UI
         initUI();
@@ -98,6 +98,9 @@ public class SplashActivity extends Activity {
 
         //创建快捷方式    --> 部分系统无桌面定制，需要判断。
         if (!SPUtil.getBoolean(getApplicationContext(), ConstantValues.ISSHORTCUP, false)) {
+            // TODO: 2016/10/4  是否快捷方式判断
+            // FIXME: 2016/10/4
+
             //initShortcup();
         }
     }
@@ -290,6 +293,7 @@ public class SplashActivity extends Activity {
             goHomePage();
         }
     }
+
 
     /**
      * 跳转到主界面

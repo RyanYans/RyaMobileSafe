@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         style="@style/TitleStyle"
         android:text="软件管理"
-        android:background="#299"
         />
 
     <LinearLayout
